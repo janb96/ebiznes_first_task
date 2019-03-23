@@ -4,10 +4,10 @@
 
 ## Step1: Build
 
-#### docker build -t ebiznes_java_sbt_scala .
+#### docker build -t docker_image_name .
 
 ## Step2: Run
 
-#### docker run -it --entrypoint /bin/bash ebiznes_java_sbt_scala
+#### docker run -it --entrypoint /bin/bash docker_image_name
 
 ## Dockerhub: https://hub.docker.com/r/janb96/ebiznes_java_scala_sbt
