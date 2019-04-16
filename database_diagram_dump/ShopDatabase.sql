@@ -1,4 +1,22 @@
 BEGIN TRANSACTION;
+DROP TABLE IF EXISTS "orders";
+CREATE TABLE IF NOT EXISTS "orders" (
+	"orderID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	"userID"	INTEGER NOT NULL,
+	"orderAddress"	TEXT NOT NULL,
+	"orderCity"	TEXT NOT NULL,
+	"orderCountry"	TEXT NOT NULL,
+	FOREIGN KEY("userID") REFERENCES "users"("userID")
+);
+DROP TABLE IF EXISTS "orderStatus";
+CREATE TABLE IF NOT EXISTS "orderStatus" (
+	"orderStatusID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	"orderID"	INTEGER NOT NULL,
+	"orderDate"	NUMERIC NOT NULL,
+	"deliveryDate"	NUMERIC NOT NULL,
+	"delivered"	INTEGER NOT NULL,
+	FOREIGN KEY("orderID") REFERENCES "orders"("orderID")
+);
 DROP TABLE IF EXISTS "orderDetails";
 CREATE TABLE IF NOT EXISTS "orderDetails" (
 	"orderDetailID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -36,17 +54,6 @@ CREATE TABLE IF NOT EXISTS "categories" (
 	"categoryName"	TEXT NOT NULL,
 	"categoryDescription"	TEXT NOT NULL
 );
-DROP TABLE IF EXISTS "orders";
-CREATE TABLE IF NOT EXISTS "orders" (
-	"orderID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	"userID"	INTEGER NOT NULL,
-	"orderAddress"	TEXT NOT NULL,
-	"orderCity"	TEXT NOT NULL,
-	"orderCountry"	TEXT NOT NULL,
-	"orderStatusID"	INTEGER NOT NULL,
-	FOREIGN KEY("userID") REFERENCES "users"("userID"),
-	FOREIGN KEY("orderStatusID") REFERENCES "orderStatus"("orderStatusID")
-);
 DROP TABLE IF EXISTS "users";
 CREATE TABLE IF NOT EXISTS "users" (
 	"userID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -54,12 +61,5 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"firstName"	TEXT NOT NULL,
 	"surname"	TEXT NOT NULL,
 	"password"	TEXT NOT NULL
-);
-DROP TABLE IF EXISTS "orderStatus";
-CREATE TABLE IF NOT EXISTS "orderStatus" (
-	"orderStatusID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	"orderDate"	NUMERIC NOT NULL,
-	"deliveryDate"	NUMERIC NOT NULL,
-	"delivered"	INTEGER NOT NULL
 );
 COMMIT;
