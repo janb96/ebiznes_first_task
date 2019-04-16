@@ -1,4 +1,15 @@
 BEGIN TRANSACTION;
+DROP TABLE IF EXISTS "orderDetails";
+CREATE TABLE IF NOT EXISTS "orderDetails" (
+	"orderDetailID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	"orderID"	INTEGER NOT NULL,
+	"orderDetailTotalNetPrice"	REAL NOT NULL,
+	"orderDetailTotalGrossPrice"	REAL NOT NULL,
+	"productID"	INTEGER NOT NULL,
+	"productQuantity"	INTEGER NOT NULL,
+	FOREIGN KEY("orderID") REFERENCES "orders"("orderID"),
+	FOREIGN KEY("productID") REFERENCES "products"("productID")
+);
 DROP TABLE IF EXISTS "marketingConsent";
 CREATE TABLE IF NOT EXISTS "marketingConsent" (
 	"marketingConsentID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -7,17 +18,6 @@ CREATE TABLE IF NOT EXISTS "marketingConsent" (
 	"phoneMarketing"	INTEGER NOT NULL,
 	"dateOfConsent"	NUMERIC NOT NULL,
 	FOREIGN KEY("userID") REFERENCES "users"("userID")
-);
-DROP TABLE IF EXISTS "orderDetails";
-CREATE TABLE IF NOT EXISTS "orderDetails" (
-	"orderDetailID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	"orderID"	INTEGER NOT NULL,
-	"orderDetailTotalNetPrice"	INTEGER NOT NULL,
-	"orderDetailTotalGrossPrice"	INTEGER NOT NULL,
-	"productID"	INTEGER NOT NULL,
-	"productQuantity"	INTEGER NOT NULL,
-	FOREIGN KEY("orderID") REFERENCES "orders"("orderID"),
-	FOREIGN KEY("productID") REFERENCES "products"("productID")
 );
 DROP TABLE IF EXISTS "products";
 CREATE TABLE IF NOT EXISTS "products" (
