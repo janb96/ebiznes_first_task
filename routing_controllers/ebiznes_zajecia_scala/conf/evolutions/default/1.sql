@@ -40,11 +40,11 @@ CREATE TABLE "marketingConsent" (
 CREATE TABLE "products" (
 	"productID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	"name"	TEXT NOT NULL,
-	"description"	TEXT,
-	"priceNet"	REAL,
-	"priceGross"	REAL,
-	"taxAmountVat"	INTEGER,
-	"categoryID"	INTEGER,
+	"description"	TEXT NOT NULL,
+	"priceNet"	REAL NOT NULL,
+	"priceGross"	REAL NOT NULL,
+	"taxAmountVat"	INTEGER NOT NULL,
+	"categoryID"	INTEGER NOT NULL,
 	FOREIGN KEY("categoryID") REFERENCES "categories"("categoryID")
 );
 

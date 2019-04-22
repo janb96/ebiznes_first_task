@@ -45,10 +45,13 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       case Failure(_) => print("fail")
     }
 
+    val allCategories = categoryRepo.list()
+    allCategories.map(cat => Ok(views.html.addproduct(productForm,cat)))
+
     productForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          Ok(views.html.index(errorForm,a))
+          Ok(views.html.addproduct(errorForm,a))
         )
       },
       product => {
@@ -99,7 +102,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     val priceGross = request.body.asJson.get("priceGross").as[Double]
     val taxAmountVat = request.body.asJson.get("taxAmountVat").as[Int]
     val desc = request.body.asJson.get("description").as[String]
-    val category = request.body.asJson.get("category").as[Int]
+    val category = request.body.asJson.get("categoryID").as[Int]
 
     productsRepo.create(name, desc, priceNet, priceGross, taxAmountVat,category).map { product =>
       Ok(Json.toJson(product))

@@ -1,0 +1,28 @@
+@(product: Form[CreateProductForm],category: Seq[Categories])(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@request.flash.get("success").map { key =>
+    @request.messages(key)
+}
+
+@main("Add product") {
+    @form(CSRF(routes.ProductController.addProduct())) {
+        @inputText(product("name"))
+        @inputText(product("description"))
+        @inputText(product("priceNet"))
+        @inputText(product("priceGross"))
+        @inputText(product("taxAmountVat"))
+
+        <select name="category" id="category">
+        @for(cat <- category){
+            <option value="@cat.categoryID">@cat.categoryName</option>
+        }
+        </select>
+
+
+        <div class="buttons">
+            <input type="submit" value="Add Product"/>
+        </div>
+    }
+}

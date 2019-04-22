@@ -2,7 +2,7 @@
 
 @import helper._
 
-@main("Welcome to Ebiznes") {
+@main("Add category") {
     @form(CSRF(routes.ProductController.addCategory())) {
         @inputText(product("name"))
         @inputText(product("description"))

@@ -6,7 +6,9 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
 import play.api.mvc._
+
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderRepository,
                                cc: MessagesControllerComponents
@@ -23,10 +25,20 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
   }
 
   def addOrder = Action.async { implicit request =>
+
+    var a:Seq[Users] = Seq[Users]()
+    val categories = userRepo.list().onComplete{
+      case Success(cat) => a= cat
+      case Failure(_) => print("fail")
+    }
+
+    val allUsers = userRepo.list()
+    allUsers.map(a => Ok(views.html.addorder(orderForm, a)))
+
     orderForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          Ok(views.html.addorder(errorForm))
+          Ok(views.html.addorder(errorForm, a))
         )
       },
       order => {
@@ -40,6 +52,23 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
   def getOrders = Action.async { implicit request =>
     orderRepo.list().map { orders =>
       Ok(Json.toJson(orders))
+    }
+  }
+
+  def getByUserID(userID: Int) = Action.async { implicit  request =>
+    orderRepo.getByUserID(userID).map { products =>
+      Ok(Json.toJson(products))
+    }
+  }
+
+  def handlePost = Action.async { implicit request =>
+    val userID = request.body.asJson.get("userID").as[Int]
+    val orderAddress = request.body.asJson.get("orderAddress").as[String]
+    val orderCity = request.body.asJson.get("orderCity").as[String]
+    val orderCountry = request.body.asJson.get("orderCountry").as[String]
+
+    orderRepo.create(userID, orderAddress, orderCity, orderCountry).map { order =>
+      Ok(Json.toJson(order))
     }
   }
 

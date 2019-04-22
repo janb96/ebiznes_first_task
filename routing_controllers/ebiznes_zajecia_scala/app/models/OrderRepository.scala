@@ -41,4 +41,8 @@ class OrderRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
     orders.result
   }
 
+  def getByUserID(userID: Int): Future[Seq[Orders]] = db.run {
+    orders.filter(_.userID === userID).result
+  }
+
 }

@@ -52,6 +52,17 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
     }
   }
 
+  def handlePost = Action.async { implicit request =>
+    val email = request.body.asJson.get("email").as[String]
+    val firstName = request.body.asJson.get("firstName").as[String]
+    val surname = request.body.asJson.get("surname").as[String]
+    val password = request.body.asJson.get("password").as[String]
+    
+    userRepo.create(email, firstName, surname, password).map { user =>
+      Ok(Json.toJson(user))
+    }
+  }
+
 }
 
 case class CreateUserForm(email: String, firstName: String, surname: String, password: String, emailMarketing: Boolean, phoneMarketing: Boolean)

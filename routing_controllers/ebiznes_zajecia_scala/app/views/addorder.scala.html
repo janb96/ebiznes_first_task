@@ -1,13 +1,18 @@
-@(order: Form[CreateOrderForm])(implicit request: MessagesRequestHeader)
+@(order: Form[CreateOrderForm], users: Seq[Users])(implicit request: MessagesRequestHeader)
 
 @import helper._
 
-@main("Welcome to Ebiznes") {
+@main("Add order") {
     @form(CSRF(routes.OrderController.addOrder())) {
-        @inputText(order("userID"))
         @inputText(order("orderAddress"))
         @inputText(order("orderCity"))
         @inputText(order("orderCountry"))
+
+        <select name="userID" id="userID">
+        @for(cat <- users){
+            <option value="@cat.userID">@cat.firstName @cat.surname</option>
+        }
+        </select>
 
         <div class="buttons">
             <input type="submit" value="Add Order"/>

@@ -1,18 +1,30 @@
 GET     /                           controllers.ProductController.index
 
-POST    /addproduct                 controllers.ProductController.addProduct
+
+#PRODUCTS
+POST    /addproduct                 controllers.ProductController.handlePost
+GET     /addproduct                 controllers.ProductController.addProduct
 GET     /products                   controllers.ProductController.getProducts
 GET     /category/:id               controllers.ProductController.getByCategory(id: Integer)
 
+
+#CATEGORIES
 GET    /addcategory                 controllers.ProductController.addCategory
 GET    /categories                  controllers.ProductController.getCategories
 
+
+#USERS
+POST   /adduser                     controllers.UserController.handlePost
 GET    /users                       controllers.UserController.getUsers
 GET    /adduser                     controllers.UserController.addUser
-GET     /users/:email               controllers.UserController.getByEmail(email: String)
+GET    /users/:email                controllers.UserController.getByEmail(email: String)
 
-GET   /orders                       controllers.OrderController.getOrders
-GET   /addorder                     controllers.OrderController.addOrder
+
+#ORDERS
+POST   /addorder                     controllers.OrderController.handlePost
+GET   /orders                        controllers.OrderController.getOrders
+GET   /addorder                      controllers.OrderController.addOrder
+GET   /orders/:userID                controllers.OrderController.getByUserID(userID: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
