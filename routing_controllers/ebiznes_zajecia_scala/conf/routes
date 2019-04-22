@@ -8,6 +8,10 @@ GET     /products                   controllers.ProductController.getProducts
 GET     /products/byCategory/:id    controllers.ProductController.getByCategory(id: Integer)
 GET     /products/byID/:id          controllers.ProductController.getProductByID(id: Integer)
 GET     /products/byName/:name          controllers.ProductController.getProductByName(name: String)
+GET     /products/netCheaperThan/:price controllers.ProductController.getProductsWithLowerNetPrice(price: Double)
+GET     /products/grossCheaperThan/:price controllers.ProductController.getProductsWithLowerGrossPrice(price: Double)
+GET     /products/netExpThan/:price controllers.ProductController.getProductsWithHigherNetPrice(price: Double)
+GET     /products/grossExpThan/:price controllers.ProductController.getProductsWithHigherGrossPrice(price: Double)
 
 #CATEGORIES
 POST    /addcategory                controllers.ProductController.handlePostCategory

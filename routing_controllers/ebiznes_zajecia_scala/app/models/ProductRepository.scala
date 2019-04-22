@@ -54,6 +54,22 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     product.filter(_.name === name).result
   }
 
+  def getProductsWithLowerNetPrice(price: Double): Future[Seq[Product]] = db.run {
+    product.filter(_.priceNet <= price).result
+  }
+
+  def getProductsWithLowerGrossPrice(price: Double): Future[Seq[Product]] = db.run {
+    product.filter(_.priceGross <= price).result
+  }
+
+  def getProductsWithHigherNetPrice(price: Double): Future[Seq[Product]] = db.run {
+    product.filter(_.priceNet >= price).result
+  }
+
+  def getProductsWithHigherGrossPrice(price: Double): Future[Seq[Product]] = db.run {
+    product.filter(_.priceGross >= price).result
+  }
+
 //  def getByCategories(category_ids: List[Int]): Future[Seq[Product]] = db.run {
 //    product.filter(_.categories inSet category_ids).result
 //  }

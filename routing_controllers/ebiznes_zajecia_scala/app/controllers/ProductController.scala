@@ -102,6 +102,30 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     }
   }
 
+  def getProductsWithLowerNetPrice(price: Double) = Action.async { implicit  request =>
+    productsRepo.getProductsWithLowerNetPrice(price).map { products =>
+      Ok(Json.toJson(products))
+    }
+  }
+
+  def getProductsWithLowerGrossPrice(price: Double) = Action.async { implicit  request =>
+    productsRepo.getProductsWithLowerGrossPrice(price).map { products =>
+      Ok(Json.toJson(products))
+    }
+  }
+
+  def getProductsWithHigherNetPrice(price: Double) = Action.async { implicit  request =>
+    productsRepo.getProductsWithHigherNetPrice(price).map { products =>
+      Ok(Json.toJson(products))
+    }
+  }
+
+  def getProductsWithHigherGrossPrice(price: Double) = Action.async { implicit  request =>
+    productsRepo.getProductsWithHigherGrossPrice(price).map { products =>
+      Ok(Json.toJson(products))
+    }
+  }
+
   def getCategories = Action.async { implicit request =>
     categoryRepo.list().map { categories =>
       Ok(Json.toJson(categories))
