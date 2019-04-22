@@ -26,6 +26,7 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
 
 
   def addUser = Action.async { implicit request =>
+
     userForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
@@ -38,6 +39,7 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
         }
       }
     )
+
   }
 
   def getUsers = Action.async { implicit request =>

@@ -5,20 +5,23 @@ GET     /                           controllers.ProductController.index
 POST    /addproduct                 controllers.ProductController.handlePost
 GET     /addproduct                 controllers.ProductController.addProduct
 GET     /products                   controllers.ProductController.getProducts
-GET     /category/:id               controllers.ProductController.getByCategory(id: Integer)
-
+GET     /products/byCategory/:id    controllers.ProductController.getByCategory(id: Integer)
+GET     /products/byID/:id          controllers.ProductController.getProductByID(id: Integer)
+GET     /products/byName/:name          controllers.ProductController.getProductByName(name: String)
 
 #CATEGORIES
+POST    /addcategory                controllers.ProductController.handlePostCategory
 GET    /addcategory                 controllers.ProductController.addCategory
 GET    /categories                  controllers.ProductController.getCategories
+GET    /categories/byID/:categoryID      controllers.ProductController.getCategoriesByID(categoryID: Integer)
+GET    /categories/byName/:name     controllers.ProductController.getCategoriesByName(name: String)
 
 
 #USERS
 POST   /adduser                     controllers.UserController.handlePost
 GET    /users                       controllers.UserController.getUsers
 GET    /adduser                     controllers.UserController.addUser
-GET    /users/:email                controllers.UserController.getByEmail(email: String)
-
+GET    /users/byEmail/:email                controllers.UserController.getByEmail(email: String)
 
 #ORDERS
 POST   /addorder                     controllers.OrderController.handlePost

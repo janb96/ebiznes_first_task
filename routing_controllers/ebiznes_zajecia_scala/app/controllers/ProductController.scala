@@ -84,15 +84,39 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     }
   }
 
-  def getCategories = Action.async { implicit request =>
-    categoryRepo.list().map { categories =>
-      Ok(Json.toJson(categories))
+  def getProductByID(productID: Integer) = Action.async { implicit  request =>
+    productsRepo.getByID(productID).map { product =>
+      Ok(Json.toJson(product))
+    }
+  }
+
+  def getProductByName(name: String) = Action.async { implicit  request =>
+    productsRepo.getByProductName(name).map { product =>
+      Ok(Json.toJson(product))
     }
   }
 
   def getByCategory(id: Integer) = Action.async { implicit  request =>
     productsRepo.getByCategory(id).map { products =>
       Ok(Json.toJson(products))
+    }
+  }
+
+  def getCategories = Action.async { implicit request =>
+    categoryRepo.list().map { categories =>
+      Ok(Json.toJson(categories))
+    }
+  }
+
+  def getCategoriesByID(categoryID: Integer) = Action.async { implicit  request =>
+    categoryRepo.getCategoriesByID(categoryID).map { category =>
+      Ok(Json.toJson(category))
+    }
+  }
+
+  def getCategoriesByName(name: String) = Action.async { implicit  request =>
+    categoryRepo.getCategoriesByName(name).map { category =>
+      Ok(Json.toJson(category))
     }
   }
 
@@ -108,6 +132,16 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       Ok(Json.toJson(product))
     }
   }
+
+  def handlePostCategory = Action.async { implicit request =>
+    val name = request.body.asJson.get("name").as[String]
+    val description = request.body.asJson.get("description").as[String]
+
+    categoryRepo.create(name, description).map { category =>
+      Ok(Json.toJson(category))
+    }
+  }
+
 }
 
 case class CreateProductForm(name: String, description: String, priceNet: Double, priceGross: Double, taxAmountVat: Int, category: Int)

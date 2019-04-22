@@ -46,9 +46,17 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     product.filter(_.categories === category_id).result
   }
 
-  def getByCategories(category_ids: List[Int]): Future[Seq[Product]] = db.run {
-    product.filter(_.categories inSet category_ids).result
+  def getByID(productID: Int): Future[Seq[Product]] = db.run {
+    product.filter(_.productID === productID).result
   }
+
+  def getByProductName(name: String): Future[Seq[Product]] = db.run {
+    product.filter(_.name === name).result
+  }
+
+//  def getByCategories(category_ids: List[Int]): Future[Seq[Product]] = db.run {
+//    product.filter(_.categories inSet category_ids).result
+//  }
 
 
 }
