@@ -45,4 +45,20 @@ class OrderRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
     orders.filter(_.userID === userID).result
   }
 
+  def getByOrderID(orderID: Int): Future[Seq[Orders]] = db.run {
+    orders.filter(_.orderID === orderID).result
+  }
+
+  def getByCountry(country: String): Future[Seq[Orders]] = db.run {
+    orders.filter(_.orderCountry === country).result
+  }
+
+  def getByCity(city: String): Future[Seq[Orders]] = db.run {
+    orders.filter(_.orderCity === city).result
+  }
+
+  def getByAddress(address: String): Future[Seq[Orders]] = db.run {
+    orders.filter(_.orderAddress === address).result
+  }
+
 }

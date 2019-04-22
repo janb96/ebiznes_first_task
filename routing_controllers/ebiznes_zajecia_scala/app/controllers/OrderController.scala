@@ -56,8 +56,32 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
   }
 
   def getByUserID(userID: Int) = Action.async { implicit  request =>
-    orderRepo.getByUserID(userID).map { products =>
-      Ok(Json.toJson(products))
+    orderRepo.getByUserID(userID).map { orders =>
+      Ok(Json.toJson(orders))
+    }
+  }
+
+  def getByOrderID(orderID: Int) = Action.async { implicit  request =>
+    orderRepo.getByOrderID(orderID).map { orders =>
+      Ok(Json.toJson(orders))
+    }
+  }
+
+  def getByCountry(country: String) = Action.async { implicit  request =>
+    orderRepo.getByCountry(country).map { orders =>
+      Ok(Json.toJson(orders))
+    }
+  }
+
+  def getByCity(city: String) = Action.async { implicit  request =>
+    orderRepo.getByCity(city).map { orders =>
+      Ok(Json.toJson(orders))
+    }
+  }
+
+  def getByAddress(address: String) = Action.async { implicit  request =>
+    orderRepo.getByAddress(address).map { orders =>
+      Ok(Json.toJson(orders))
     }
   }
 
