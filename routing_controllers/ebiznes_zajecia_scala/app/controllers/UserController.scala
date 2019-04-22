@@ -54,6 +54,12 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
     }
   }
 
+  def getBySurname(surname: String) = Action.async { implicit  request =>
+    userRepo.getBySurname(surname).map { users =>
+      Ok(Json.toJson(users))
+    }
+  }
+
   def getByID(id: Int) = Action.async { implicit  request =>
     userRepo.getByID(id).map { users =>
       Ok(Json.toJson(users))

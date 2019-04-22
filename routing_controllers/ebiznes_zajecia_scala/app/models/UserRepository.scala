@@ -41,6 +41,10 @@ class UserRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
     users.filter(_.email === email).result
   }
 
+  def getBySurname(surname: String): Future[Seq[Users]] = db.run {
+    users.filter(_.surname === surname).result
+  }
+
   def getByID(id: Int): Future[Seq[Users]] = db.run {
     users.filter(_.userID === id).result
   }

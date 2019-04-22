@@ -21,8 +21,9 @@ GET    /categories/byName/:name     controllers.ProductController.getCategoriesB
 POST   /adduser                     controllers.UserController.handlePost
 GET    /users                       controllers.UserController.getUsers
 GET    /adduser                     controllers.UserController.addUser
-GET    /users/byEmail/:email                controllers.UserController.getByEmail(email: String)
-GET    /users/byID/:id                controllers.UserController.getByID(id: Integer)
+GET    /users/byEmail/:email        controllers.UserController.getByEmail(email: String)
+GET    /users/byID/:id              controllers.UserController.getByID(id: Integer)
+GET    /users/bySurname/:surname    controllers.UserController.getBySurname(surname: String)
 
 #ORDERS
 POST   /addorder                     controllers.OrderController.handlePost
