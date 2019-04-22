@@ -50,6 +50,10 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     product.filter(_.productID === productID).result
   }
 
+  def getProductByTax(tax: Int): Future[Seq[Product]] = db.run {
+    product.filter(_.taxAmountVat === tax).result
+  }
+
   def getByProductName(name: String): Future[Seq[Product]] = db.run {
     product.filter(_.name === name).result
   }

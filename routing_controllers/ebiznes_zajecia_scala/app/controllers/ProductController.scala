@@ -102,6 +102,12 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     }
   }
 
+  def getProductByTax(tax: Integer) = Action.async { implicit  request =>
+    productsRepo.getProductByTax(tax).map { products =>
+      Ok(Json.toJson(products))
+    }
+  }
+
   def getProductsWithLowerNetPrice(price: Double) = Action.async { implicit  request =>
     productsRepo.getProductsWithLowerNetPrice(price).map { products =>
       Ok(Json.toJson(products))

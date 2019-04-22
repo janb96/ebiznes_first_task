@@ -12,6 +12,7 @@ GET     /products/netCheaperThan/:price controllers.ProductController.getProduct
 GET     /products/grossCheaperThan/:price controllers.ProductController.getProductsWithLowerGrossPrice(price: Double)
 GET     /products/netExpThan/:price controllers.ProductController.getProductsWithHigherNetPrice(price: Double)
 GET     /products/grossExpThan/:price controllers.ProductController.getProductsWithHigherGrossPrice(price: Double)
+GET     /products/byTaxAmount/:tax          controllers.ProductController.getProductByTax(tax: Integer)
 
 #CATEGORIES
 POST    /addcategory                controllers.ProductController.handlePostCategory
