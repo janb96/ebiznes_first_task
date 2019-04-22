@@ -17,9 +17,9 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     def productID = column[Int]("productID", O.PrimaryKey, O.AutoInc)
     def name = column[String]("name")
     def description = column[String]("description")
-    def priceNet = column[Double]("description")
-    def priceGross = column[Double]("description")
-    def taxAmountVat = column[Int]("description")
+    def priceNet = column[Double]("priceNet")
+    def priceGross = column[Double]("priceGross")
+    def taxAmountVat = column[Int]("taxAmountVat")
     def categories = column[Int]("categoryID")
     def category_fk = foreignKey("cat_fk",categories, cat)(_.categoryID)
 
@@ -32,10 +32,9 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
   private val cat = TableQuery[CategoryTable]
 
   def create(name: String, description: String, priceNet: Double, priceGross: Double, taxAmountVat: Int, category: Int): Future[Product] = db.run {
-
     (product.map(p => (p.name, p.description, p.priceNet, p.priceGross, p.taxAmountVat, p.categories))
       returning product.map(_.productID)
-      into {case ((name,description, priceNet, priceGross, taxAmountVat, category),id) => Product(id,name, description, priceNet, priceGross, taxAmountVat, category)}
+      into {case ((name, description, priceNet, priceGross, taxAmountVat, category),id) => Product(id, name, description, priceNet, priceGross, taxAmountVat, category)}
       ) += (name, description, priceNet, priceGross, taxAmountVat, category)
   }
 

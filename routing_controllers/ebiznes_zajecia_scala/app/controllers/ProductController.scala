@@ -60,6 +60,12 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     }
   }
 
+  def getCategories = Action.async { implicit request =>
+    categoryRepo.list().map { categories =>
+      Ok(Json.toJson(categories))
+    }
+  }
+
   def getByCategory(id: Integer) = Action.async { implicit  request =>
     productsRepo.getByCategory(id).map { products =>
       Ok(Json.toJson(products))
@@ -80,8 +86,9 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     val priceGross = request.body.asJson.get("priceGross").as[Double]
     val taxAmountVat = request.body.asJson.get("taxAmountVat").as[Int]
     val desc = request.body.asJson.get("description").as[String]
+    val category = request.body.asJson.get("category").as[Int]
 
-    productsRepo.create(name, desc, priceNet, priceGross, taxAmountVat,1).map { product =>
+    productsRepo.create(name, desc, priceNet, priceGross, taxAmountVat,category).map { product =>
       Ok(Json.toJson(product))
     }
   }

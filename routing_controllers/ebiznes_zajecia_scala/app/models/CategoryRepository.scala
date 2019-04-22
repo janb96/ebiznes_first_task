@@ -15,7 +15,7 @@ class CategoryRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(im
 
   class CategoryTable(tag: Tag) extends Table[Categories](tag, "categories") {
 
-    def categoryID = column[Int]("categories", O.PrimaryKey, O.AutoInc)
+    def categoryID = column[Int]("categoryID", O.PrimaryKey, O.AutoInc)
 
     def categoryName = column[String]("categoryName")
 
