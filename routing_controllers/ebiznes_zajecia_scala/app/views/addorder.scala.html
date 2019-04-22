@@ -1,0 +1,16 @@
+@(order: Form[CreateOrderForm])(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@main("Welcome to Ebiznes") {
+    @form(CSRF(routes.OrderController.addOrder())) {
+        @inputText(order("userID"))
+        @inputText(order("orderAddress"))
+        @inputText(order("orderCity"))
+        @inputText(order("orderCountry"))
+
+        <div class="buttons">
+            <input type="submit" value="Add Order"/>
+        </div>
+    }
+}

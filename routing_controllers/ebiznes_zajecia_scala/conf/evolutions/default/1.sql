@@ -34,7 +34,6 @@ CREATE TABLE "marketingConsent" (
 	"userID"	INTEGER NOT NULL UNIQUE,
 	"emailMarketing"	INTEGER NOT NULL,
 	"phoneMarketing"	INTEGER NOT NULL,
-	"dateOfConsent"	NUMERIC NOT NULL,
 	FOREIGN KEY("userID") REFERENCES "users"("userID")
 );
 

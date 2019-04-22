@@ -1,0 +1,15 @@
+@(product: Form[CreateCategoryForm])(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@main("Welcome to Ebiznes") {
+    @form(CSRF(routes.ProductController.addCategory())) {
+        @inputText(product("name"))
+        @inputText(product("description"))
+
+
+        <div class="buttons">
+            <input type="submit" value="Add Product"/>
+        </div>
+    }
+}

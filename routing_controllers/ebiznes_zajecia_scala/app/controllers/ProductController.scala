@@ -4,8 +4,6 @@ import javax.inject._
 import models._
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.data.validation.Constraints._
-import play.api.i18n._
 import play.api.libs.json.Json
 import play.api.mvc._
 import play.api.data.format.Formats._
@@ -26,6 +24,13 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       "taxAmountVat" -> number,
       "category" -> number,
     )(CreateProductForm.apply)(CreateProductForm.unapply)
+  }
+
+  val categoryForm: Form[CreateCategoryForm] = Form {
+    mapping(
+      "name" -> nonEmptyText,
+      "description" -> nonEmptyText,
+    )(CreateCategoryForm.apply)(CreateCategoryForm.unapply)
   }
 
   def index = Action.async { implicit request =>
@@ -54,6 +59,22 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     )
   }
 
+  def addCategory = Action.async { implicit request =>
+
+    categoryForm.bindFromRequest.fold(
+      errorForm => {
+        Future.successful(
+          Ok(views.html.createcategory(errorForm))
+        )
+      },
+      category => {
+        categoryRepo.create(category.name, category.description).map { _ =>
+          Redirect(routes.ProductController.index).flashing("success" -> "category.created")
+        }
+      }
+    )
+  }
+
   def getProducts = Action.async { implicit request =>
     productsRepo.list().map { products =>
       Ok(Json.toJson(products))
@@ -68,14 +89,6 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
 
   def getByCategory(id: Integer) = Action.async { implicit  request =>
     productsRepo.getByCategory(id).map { products =>
-      Ok(Json.toJson(products))
-    }
-  }
-
-  def getByCategories = Action.async { implicit  request =>
-    val categories: List[Int] = List(1,2,3)
-
-    productsRepo.getByCategories(categories).map { products =>
       Ok(Json.toJson(products))
     }
   }
@@ -95,3 +108,4 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
 }
 
 case class CreateProductForm(name: String, description: String, priceNet: Double, priceGross: Double, taxAmountVat: Int, category: Int)
+case class CreateCategoryForm(name: String, description: String)
