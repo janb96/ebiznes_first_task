@@ -1,4 +1,4 @@
-@(order: Form[CreateOrderForm], users: Seq[Users])(implicit request: MessagesRequestHeader)
+@(order: Form[CreateOrderForm], users: Seq[Users], products: Seq[Product])(implicit request: MessagesRequestHeader)
 
 @import helper._
 
@@ -18,6 +18,18 @@
             <option value="2019-06-06">2019-06-06</option>
             <option value="2019-06-07">2019-06-07</option>
         </select>
+
+        @inputText(order("orderDetailTotalNetPrice"))
+        @inputText(order("orderDetailTotalGrossPrice"))
+        <p>Which product?</p>
+        <select name="productID" id="productID">
+        @for(cat2 <- products){
+            <option value="@cat2.productID">@cat2.name @cat2.priceGross</option>
+        }
+        </select>
+        <p>How many?</p>
+        @inputText(order("productQuantity"))
+
 
         <div class="buttons">
             <input type="submit" value="Add Order"/>

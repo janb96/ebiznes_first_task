@@ -9,10 +9,12 @@ import play.api.mvc._
 import java.util.Calendar
 import java.text.SimpleDateFormat
 
+import play.api.data.format.Formats.doubleFormat
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderRepository, orderStatusRepo: OrderStatusRepository,
+class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderRepository, orderStatusRepo: OrderStatusRepository, orderDetailRepo: OrderDetailRepository, productRepo: ProductRepository,
                                cc: MessagesControllerComponents
                               )(implicit ec: ExecutionContext)
   extends MessagesAbstractController(cc) {
@@ -24,6 +26,10 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
       "orderCity" -> nonEmptyText,
       "orderCountry" -> nonEmptyText,
       "deliveryDate" -> nonEmptyText,
+      "orderDetailTotalNetPrice" -> of(doubleFormat),
+      "orderDetailTotalGrossPrice" -> of(doubleFormat),
+      "productID" -> number,
+      "productQuantity" -> number,
     )(CreateOrderForm.apply)(CreateOrderForm.unapply)
   }
 
@@ -35,20 +41,35 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
       case Failure(_) => print("fail")
     }
 
+    var b:Seq[Product] = Seq[Product]()
+    val products = productRepo.list().onComplete{
+      case Success(cat2) => b= cat2
+      case Failure(_) => print("fail")
+    }
+
     val format = new SimpleDateFormat("yyyy-MM-dd")
 
     val allUsers = userRepo.list()
-    allUsers.map(a => Ok(views.html.addorder(orderForm, a)))
+    allUsers.map { a => {
+      productRepo.list().map { b =>
+        Ok(views.html.addorder(orderForm, a, b))
+        }
+      }
+    }
 
     orderForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          Ok(views.html.addorder(errorForm, a))
+          Ok(views.html.addorder(errorForm, a, b))
         )
       },
       order => {
-        orderRepo.create(order.userID, order.orderAddress, order.orderCity, order.orderCountry).map { order2 =>
-          orderStatusRepo.create(order2.orderID, format.format(Calendar.getInstance().getTime()), order.deliveryDate, 1)
+        orderRepo.create(order.userID, order.orderAddress, order.orderCity, order.orderCountry).map { order2 => {
+          orderStatusRepo.create(order2.orderID, format.format(Calendar.getInstance().getTime()), order.deliveryDate, 1).map {
+            order3 =>
+              orderDetailRepo.create(order2.orderID, order.orderDetailTotalNetPrice, order.orderDetailTotalGrossPrice, order.productID, order.productQuantity)
+            }
+          }
         }.map {
           _ => Redirect(routes.ProductController.index).flashing("success" -> "order.created")
         }
@@ -109,4 +130,4 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
 
 }
 
-case class CreateOrderForm(userID: Int, orderAddress: String, orderCity: String, orderCountry: String, deliveryDate: String)
+case class CreateOrderForm(userID: Int, orderAddress: String, orderCity: String, orderCountry: String, deliveryDate: String, orderDetailTotalNetPrice: Double, orderDetailTotalGrossPrice: Double, productID: Int, productQuantity: Int)
