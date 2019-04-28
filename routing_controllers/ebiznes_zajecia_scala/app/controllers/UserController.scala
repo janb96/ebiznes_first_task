@@ -19,8 +19,8 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
       "firstName" -> nonEmptyText,
       "surname" -> nonEmptyText,
       "password" -> nonEmptyText,
-      "emailMarketing" -> boolean,
-      "phoneMarketing" -> boolean,
+      "emailMarketing" -> number,
+      "phoneMarketing" -> number,
     )(CreateUserForm.apply)(CreateUserForm.unapply)
   }
 
@@ -34,8 +34,10 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
         )
       },
       user => {
-        userRepo.create(user.email, user.firstName, user.surname, user.password).map { _ =>
-          Redirect(routes.ProductController.index).flashing("success" -> "user.created")
+        userRepo.create(user.email, user.firstName, user.surname, user.password).map { user2 =>
+          marketingRepo.create(user2.userID, user.emailMarketing, user.phoneMarketing)
+        }.map {
+          _ => Redirect(routes.ProductController.index).flashing("success" -> "user.created")
         }
       }
     )
@@ -71,12 +73,16 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
     val firstName = request.body.asJson.get("firstName").as[String]
     val surname = request.body.asJson.get("surname").as[String]
     val password = request.body.asJson.get("password").as[String]
+    val emailMarketing = request.body.asJson.get("emailMarketing").as[Int]
+    val phoneMarketing = request.body.asJson.get("phoneMarketing").as[Int]
     
     userRepo.create(email, firstName, surname, password).map { user =>
-      Ok(Json.toJson(user))
+      marketingRepo.create(user.userID, emailMarketing, phoneMarketing)
+    }.map {
+      user => Ok("user.created")
     }
   }
 
 }
 
-case class CreateUserForm(email: String, firstName: String, surname: String, password: String, emailMarketing: Boolean, phoneMarketing: Boolean)
+case class CreateUserForm(email: String, firstName: String, surname: String, password: String, emailMarketing: Int, phoneMarketing: Int)

@@ -14,7 +14,7 @@ class MarketingRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, u
   import dbConfig._
   import profile.api._
 
-  private class MarketingTable(tag: Tag) extends Table[MarketingConsensts](tag, "users") {
+  private class MarketingTable(tag: Tag) extends Table[MarketingConsensts](tag, "marketingConsent") {
 
     def marketingConsentID = column[Int]("marketingConsentID", O.PrimaryKey, O.AutoInc)
 

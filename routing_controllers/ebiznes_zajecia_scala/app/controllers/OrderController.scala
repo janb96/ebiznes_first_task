@@ -6,11 +6,13 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
 import play.api.mvc._
+import java.util.Calendar
+import java.text.SimpleDateFormat
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderRepository,
+class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderRepository, orderStatusRepo: OrderStatusRepository,
                                cc: MessagesControllerComponents
                               )(implicit ec: ExecutionContext)
   extends MessagesAbstractController(cc) {
@@ -21,6 +23,7 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
       "orderAddress" -> nonEmptyText,
       "orderCity" -> nonEmptyText,
       "orderCountry" -> nonEmptyText,
+      "deliveryDate" -> nonEmptyText,
     )(CreateOrderForm.apply)(CreateOrderForm.unapply)
   }
 
@@ -32,6 +35,8 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
       case Failure(_) => print("fail")
     }
 
+    val format = new SimpleDateFormat("yyyy-MM-dd")
+
     val allUsers = userRepo.list()
     allUsers.map(a => Ok(views.html.addorder(orderForm, a)))
 
@@ -42,8 +47,10 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
         )
       },
       order => {
-        orderRepo.create(order.userID, order.orderAddress, order.orderCity, order.orderCountry).map { _ =>
-          Redirect(routes.ProductController.index).flashing("success" -> "order.created")
+        orderRepo.create(order.userID, order.orderAddress, order.orderCity, order.orderCountry).map { order2 =>
+          orderStatusRepo.create(order2.orderID, format.format(Calendar.getInstance().getTime()), order.deliveryDate, 1)
+        }.map {
+          _ => Redirect(routes.ProductController.index).flashing("success" -> "order.created")
         }
       }
     )
@@ -90,12 +97,16 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
     val orderAddress = request.body.asJson.get("orderAddress").as[String]
     val orderCity = request.body.asJson.get("orderCity").as[String]
     val orderCountry = request.body.asJson.get("orderCountry").as[String]
+    val orderDate = request.body.asJson.get("orderDate").as[String]
+    val deliveryDate = request.body.asJson.get("deliveryDate").as[String]
 
     orderRepo.create(userID, orderAddress, orderCity, orderCountry).map { order =>
-      Ok(Json.toJson(order))
+      orderStatusRepo.create(order.orderID, orderDate, deliveryDate, 1)
+    }.map {
+      order2 => Ok("order.created")
     }
   }
 
 }
 
-case class CreateOrderForm(userID: Int, orderAddress: String, orderCity: String, orderCountry: String)
+case class CreateOrderForm(userID: Int, orderAddress: String, orderCity: String, orderCountry: String, deliveryDate: String)

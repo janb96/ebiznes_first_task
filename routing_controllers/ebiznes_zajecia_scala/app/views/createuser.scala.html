@@ -8,8 +8,16 @@
         @inputText(user("firstName"))
         @inputText(user("surname"))
         @inputText(user("password"))
-
-
+        <p>Do you want email marketing?</p>
+        <select name="emailMarketing" id="emailMarketing">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+        <p>Do you want phone marketing?</p>
+        <select name="phoneMarketing" id="phoneMarketing">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
 
         <div class="buttons">
             <input type="submit" value="Add User"/>

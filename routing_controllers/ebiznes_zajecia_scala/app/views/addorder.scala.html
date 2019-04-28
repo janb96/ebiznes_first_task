@@ -7,11 +7,16 @@
         @inputText(order("orderAddress"))
         @inputText(order("orderCity"))
         @inputText(order("orderCountry"))
-
+        <p>Which user made order?</p>
         <select name="userID" id="userID">
         @for(cat <- users){
             <option value="@cat.userID">@cat.firstName @cat.surname</option>
         }
+        </select>
+        <p>Choose delivery date</p>
+        <select name="deliveryDate" id="deliveryDate">
+            <option value="2019-06-06">2019-06-06</option>
+            <option value="2019-06-07">2019-06-07</option>
         </select>
 
         <div class="buttons">
