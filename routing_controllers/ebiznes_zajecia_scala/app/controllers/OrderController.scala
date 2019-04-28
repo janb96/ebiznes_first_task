@@ -65,7 +65,7 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
       },
       order => {
         orderRepo.create(order.userID, order.orderAddress, order.orderCity, order.orderCountry).map { order2 => {
-          orderStatusRepo.create(order2.orderID, format.format(Calendar.getInstance().getTime()), order.deliveryDate, 1).map {
+          orderStatusRepo.create(order2.orderID, format.format(Calendar.getInstance().getTime()), order.deliveryDate, 0).map {
             order3 =>
               orderDetailRepo.create(order2.orderID, order.orderDetailTotalNetPrice, order.orderDetailTotalGrossPrice, order.productID, order.productQuantity)
             }
@@ -118,14 +118,24 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
     val orderAddress = request.body.asJson.get("orderAddress").as[String]
     val orderCity = request.body.asJson.get("orderCity").as[String]
     val orderCountry = request.body.asJson.get("orderCountry").as[String]
-    val orderDate = request.body.asJson.get("orderDate").as[String]
     val deliveryDate = request.body.asJson.get("deliveryDate").as[String]
+    val productID = request.body.asJson.get("productID").as[Int]
+    val productQuantity = request.body.asJson.get("productQuantity").as[Int]
+    val orderDetailTotalNetPrice = request.body.asJson.get("orderDetailTotalNetPrice").as[Double]
+    val orderDetailTotalGrossPrice = request.body.asJson.get("orderDetailTotalGrossPrice").as[Double]
+    val format = new SimpleDateFormat("yyyy-MM-dd")
 
-    orderRepo.create(userID, orderAddress, orderCity, orderCountry).map { order =>
-      orderStatusRepo.create(order.orderID, orderDate, deliveryDate, 1)
-    }.map {
-      order2 => Ok("order.created")
+    orderRepo.create(userID, orderAddress, orderCity, orderCountry).map { order2 => {
+      orderStatusRepo.create(order2.orderID, format.format(Calendar.getInstance().getTime()), deliveryDate, 0).map {
+        order3 =>
+          orderDetailRepo.create(order2.orderID, orderDetailTotalNetPrice, orderDetailTotalGrossPrice, productID, productQuantity)
+      }
     }
+    }.map {
+      _ => Ok("order.created")
+    }
+
+
   }
 
 }
