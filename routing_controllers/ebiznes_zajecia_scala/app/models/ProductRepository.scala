@@ -21,9 +21,10 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     def priceGross = column[Double]("priceGross")
     def taxAmountVat = column[Int]("taxAmountVat")
     def categories = column[Int]("categoryID")
+    def photo = column[String]("photo")
     def category_fk = foreignKey("cat_fk",categories, cat)(_.categoryID)
 
-    def * = (productID, name, description, priceNet, priceGross, taxAmountVat, categories) <> ((Product.apply _).tupled, Product.unapply)
+    def * = (productID, name, description, priceNet, priceGross, taxAmountVat, categories, photo) <> ((Product.apply _).tupled, Product.unapply)
   }
 
 
@@ -31,11 +32,11 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
   private val product = TableQuery[ProductTable]
   private val cat = TableQuery[CategoryTable]
 
-  def create(name: String, description: String, priceNet: Double, priceGross: Double, taxAmountVat: Int, category: Int): Future[Product] = db.run {
-    (product.map(p => (p.name, p.description, p.priceNet, p.priceGross, p.taxAmountVat, p.categories))
+  def create(name: String, description: String, priceNet: Double, priceGross: Double, taxAmountVat: Int, category: Int, photo: String): Future[Product] = db.run {
+    (product.map(p => (p.name, p.description, p.priceNet, p.priceGross, p.taxAmountVat, p.categories, p.photo))
       returning product.map(_.productID)
-      into {case ((name, description, priceNet, priceGross, taxAmountVat, category),id) => Product(id, name, description, priceNet, priceGross, taxAmountVat, category)}
-      ) += (name, description, priceNet, priceGross, taxAmountVat, category)
+      into {case ((name, description, priceNet, priceGross, taxAmountVat, category, photo),id) => Product(id, name, description, priceNet, priceGross, taxAmountVat, category, photo)}
+      ) += (name, description, priceNet, priceGross, taxAmountVat, category, photo)
   }
 
   def list(): Future[Seq[Product]] = db.run {

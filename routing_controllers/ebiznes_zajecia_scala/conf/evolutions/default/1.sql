@@ -45,6 +45,7 @@ CREATE TABLE "products" (
 	"priceGross"	REAL NOT NULL,
 	"taxAmountVat"	INTEGER NOT NULL,
 	"categoryID"	INTEGER NOT NULL,
+	"photo"		TEXT NOT NULL,
 	FOREIGN KEY("categoryID") REFERENCES "categories"("categoryID")
 );
 

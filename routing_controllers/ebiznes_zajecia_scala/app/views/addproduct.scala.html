@@ -13,7 +13,7 @@
         @inputText(product("priceNet"))
         @inputText(product("priceGross"))
         @inputText(product("taxAmountVat"))
-
+        @inputText(product("photo"))
         <select name="category" id="category">
         @for(cat <- category){
             <option value="@cat.categoryID">@cat.categoryName</option>

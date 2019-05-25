@@ -23,6 +23,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       "priceGross" -> of(doubleFormat),
       "taxAmountVat" -> number,
       "category" -> number,
+      "photo" -> nonEmptyText
     )(CreateProductForm.apply)(CreateProductForm.unapply)
   }
 
@@ -55,7 +56,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
         )
       },
       product => {
-        productsRepo.create(product.name, product.description, product.priceNet, product.priceGross, product.taxAmountVat , product.category).map { _ =>
+        productsRepo.create(product.name, product.description, product.priceNet, product.priceGross, product.taxAmountVat , product.category, product.photo).map { _ =>
           Redirect(routes.ProductController.index).flashing("success" -> "product.created")
         }
       }
@@ -157,8 +158,9 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     val taxAmountVat = request.body.asJson.get("taxAmountVat").as[Int]
     val desc = request.body.asJson.get("description").as[String]
     val category = request.body.asJson.get("categoryID").as[Int]
+    val photo = request.body.asJson.get("photo").as[String]
 
-    productsRepo.create(name, desc, priceNet, priceGross, taxAmountVat,category).map { product =>
+    productsRepo.create(name, desc, priceNet, priceGross, taxAmountVat, category, photo).map { product =>
       Ok(Json.toJson(product))
     }
   }
@@ -174,5 +176,5 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
 
 }
 
-case class CreateProductForm(name: String, description: String, priceNet: Double, priceGross: Double, taxAmountVat: Int, category: Int)
+case class CreateProductForm(name: String, description: String, priceNet: Double, priceGross: Double, taxAmountVat: Int, category: Int, photo: String)
 case class CreateCategoryForm(name: String, description: String)
