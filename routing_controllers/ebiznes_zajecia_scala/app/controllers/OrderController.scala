@@ -83,6 +83,18 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
     }
   }
 
+  def getOrderDetailByOrderID(orderID: Int) = Action.async { implicit  request =>
+    orderDetailRepo.getByOrderID(orderID).map { orders =>
+      Ok(Json.toJson(orders))
+    }
+  }
+
+  def getOrderStatusByOrderID(orderID: Int) = Action.async { implicit  request =>
+    orderStatusRepo.getByOrderID(orderID).map { orders =>
+      Ok(Json.toJson(orders))
+    }
+  }
+
   def getByUserID(userID: Int) = Action.async { implicit  request =>
     orderRepo.getByUserID(userID).map { orders =>
       Ok(Json.toJson(orders))
@@ -118,7 +130,7 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
     val orderAddress = request.body.asJson.get("orderAddress").as[String]
     val orderCity = request.body.asJson.get("orderCity").as[String]
     val orderCountry = request.body.asJson.get("orderCountry").as[String]
-    val deliveryDate = request.body.asJson.get("deliveryDate").as[String]
+//    val deliveryDate = request.body.asJson.get("deliveryDate").as[String]
     val productID = request.body.asJson.get("productID").as[Int]
     val productQuantity = request.body.asJson.get("productQuantity").as[Int]
     val orderDetailTotalNetPrice = request.body.asJson.get("orderDetailTotalNetPrice").as[Double]
@@ -126,7 +138,7 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
     val format = new SimpleDateFormat("yyyy-MM-dd")
 
     orderRepo.create(userID, orderAddress, orderCity, orderCountry).map { order2 => {
-      orderStatusRepo.create(order2.orderID, format.format(Calendar.getInstance().getTime()), deliveryDate, 0).map {
+      orderStatusRepo.create(order2.orderID, format.format(Calendar.getInstance().getTime()), format.format(Calendar.getInstance().getTime()), 0).map {
         order3 =>
           orderDetailRepo.create(order2.orderID, orderDetailTotalNetPrice, orderDetailTotalGrossPrice, productID, productQuantity)
       }

@@ -45,4 +45,9 @@ class OrderStatusRepository @Inject() (dbConfigProvider: DatabaseConfigProvider,
   def list(): Future[Seq[OrderStatus]] = db.run {
     orderStatus.result
   }
+
+  def getByOrderID(orderID: Int): Future[Seq[OrderStatus]] = db.run {
+    orderStatus.filter(_.orderID === orderID).result
+  }
+
 }

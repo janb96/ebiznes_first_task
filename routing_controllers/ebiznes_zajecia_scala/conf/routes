@@ -35,9 +35,11 @@ POST   /addorder                     controllers.OrderController.handlePost
 GET   /orders                        controllers.OrderController.getOrders
 GET   /addorder                      controllers.OrderController.addOrder
 GET   /orders/byUserID/:userID                controllers.OrderController.getByUserID(userID: Integer)
-GET   /orders/byOrderID/:oderID                controllers.OrderController.getByOrderID(oderID: Integer)
+GET   /orders/byOrderID/:orderID                controllers.OrderController.getByOrderID(orderID: Integer)
 GET   /orders/byCountry/:country                controllers.OrderController.getByCountry(country: String)
 GET   /orders/byCity/:city                controllers.OrderController.getByCity(city: String)
+GET   /orderDetail/byOrderID/:orderID                controllers.OrderController.getOrderDetailByOrderID(orderID: Integer)
+GET   /orderStatus/byOrderID/:orderID                controllers.OrderController.getOrderStatusByOrderID(orderID: Integer)
 
 #GET   /orders/byAddress/:address                controllers.OrderController.getByAddress(address: String)
 
