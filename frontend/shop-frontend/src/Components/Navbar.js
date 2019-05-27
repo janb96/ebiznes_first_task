@@ -38,7 +38,7 @@ class Navbar extends Component {
                         <Link to="/">Home</Link>
                     </div>
                     <div className="col-3">
-                        <Link to="/get">GET</Link>
+                        <Link to="/admin-panel">Admin Panel</Link>
                     </div>
                     <div className="col-3">
                         <Link to="/add">ADD</Link>

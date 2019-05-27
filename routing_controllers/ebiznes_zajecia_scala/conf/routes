@@ -14,7 +14,8 @@ GET     /products/netExpThan/:price controllers.ProductController.getProductsWit
 GET     /products/grossExpThan/:price controllers.ProductController.getProductsWithHigherGrossPrice(price: Double)
 GET     /products/byTaxAmount/:tax          controllers.ProductController.getProductByTax(tax: Integer)
 
-POST    /products/delete    controllers.ProductController.deleteProduct
+DELETE    /products/delete/:id    controllers.ProductController.deleteProduct(id: Integer)
+PUT    /products/:id    controllers.ProductController.changeProduct(id: Integer)
 
 #CATEGORIES
 POST    /addcategory                controllers.ProductController.handlePostCategory
@@ -23,8 +24,8 @@ GET    /categories                  controllers.ProductController.getCategories
 GET    /categories/byID/:categoryID      controllers.ProductController.getCategoriesByID(categoryID: Integer)
 GET    /categories/byName/:name     controllers.ProductController.getCategoriesByName(name: String)
 
-POST    /categories/delete    controllers.ProductController.deleteCategory
-
+DELETE    /categories/delete/:id    controllers.ProductController.deleteCategory(id: Integer)
+PUT    /categories/:id    controllers.ProductController.changeCategory(id: Integer)
 
 #USERS
 POST   /adduser                     controllers.UserController.handlePost
@@ -34,7 +35,7 @@ GET    /users/byEmail/:email        controllers.UserController.getByEmail(email:
 GET    /users/byID/:id              controllers.UserController.getByID(id: Integer)
 GET    /users/bySurname/:surname    controllers.UserController.getBySurname(surname: String)
 
-POST    /users/delete    controllers.UserController.deleteUser
+DELETE    /users/delete/:id    controllers.UserController.deleteUser(id: Integer)
 
 #ORDERS
 POST   /addorder                     controllers.OrderController.handlePost
@@ -47,7 +48,7 @@ GET   /orders/byCity/:city                controllers.OrderController.getByCity(
 GET   /orderDetail/byOrderID/:orderID                controllers.OrderController.getOrderDetailByOrderID(orderID: Integer)
 GET   /orderStatus/byOrderID/:orderID                controllers.OrderController.getOrderStatusByOrderID(orderID: Integer)
 
-POST    /orders/delete    controllers.OrderController.deleteOrder
+DELETE    /orders/delete/:id    controllers.OrderController.deleteOrder(id: Integer)
 
 #GET   /orders/byAddress/:address                controllers.OrderController.getByAddress(address: String)
 

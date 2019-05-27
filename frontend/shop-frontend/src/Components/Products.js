@@ -11,14 +11,16 @@ class Products extends Component {
     constructor () {
         super();
         this.state = {
-            products: []
+            products: [],
         };
     }
 
     async componentDidMount() {
         const promise = await axios.get('http://localhost:9000/products');
         const response = promise.data;
-        this.setState({ products: response });
+        this.setState({
+            products: response
+        });
     }
 
     render(){
@@ -37,6 +39,8 @@ class Products extends Component {
                                 priceNet={product.priceNet}
                                 priceGross={product.priceGross}
                                 taxAmountVat={product.taxAmountVat}
+                                categoryID={product.categoryID}
+                                isAdmin={this.props.match.params.isAdmin + ""}
                             />
                         )}
                     </div>

@@ -12,6 +12,8 @@ import Orders from './Components/Orders';
 import MakeOrder from './Components/MakeOrder';
 import AddCategory from "./Components/AddCategory";
 import AddProduct from "./Components/AddProduct";
+import Home from "./Components/Home";
+import AdminPanel from "./Components/AdminPanel"
 
 class App extends Component {
   render() {
@@ -22,12 +24,14 @@ class App extends Component {
             <br/>
             <br/>
             <br/>
-            <Route exact path="/" component={Products} />
-            <Route path="/categories" component={Categories} />
-            <Route path="/users" component={Users} />
-            <Route path="/orders" component={Orders} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/products/:isAdmin?" component={Products} />
+            <Route exact path="/admin-panel" component={AdminPanel} />
+            <Route path="/categories/:isAdmin?" component={Categories} />
+            <Route path="/users/:isAdmin?" component={Users} />
+            <Route path="/orders/:isAdmin?" component={Orders} />
             <Route path="/addcategory" component={AddCategory} />
-              <Route path="/addproduct" component={AddProduct} />
+            <Route path="/addproduct" component={AddProduct} />
             <Route path="/addorder/:id/:productQuantity/:orderDetailTotalNetPrice/:orderDetailTotalGrossPrice" component={MakeOrder} />
           </div>
         </Router>

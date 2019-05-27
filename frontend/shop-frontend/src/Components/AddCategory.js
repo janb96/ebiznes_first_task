@@ -62,7 +62,7 @@ class AddCategory extends Component {
 
                 <br/>
 
-                <button className='btn btn-success btn-block' onClick={this.handleClick}>Make order</button>
+                <button className='btn btn-success btn-block' onClick={this.handleClick}>Add category</button>
             </div>
         );
     }

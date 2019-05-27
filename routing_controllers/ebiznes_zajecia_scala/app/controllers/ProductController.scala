@@ -151,9 +151,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     }
   }
 
-  def deleteProduct = Action.async { implicit  request =>
-
-    val id = request.body.asJson.get("productID").as[Int]
+  def deleteProduct(id: Int) = Action.async { implicit  request =>
 
     productsRepo.delete(id).map { product =>
       Ok(Json.toJson(product))
@@ -161,11 +159,36 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
 
   }
 
-  def deleteCategory = Action.async { implicit  request =>
-
-    val id = request.body.asJson.get("categoryID").as[Int]
-
+  def deleteCategory(id: Int) = Action.async { implicit  request =>
     categoryRepo.delete(id).map { category =>
+      Ok(Json.toJson(category))
+    }
+
+  }
+
+  def changeProduct(id: Int) = Action.async { implicit  request =>
+
+    val name = request.body.asJson.get("name").as[String]
+    val priceNet = request.body.asJson.get("priceNet").as[Double]
+    val priceGross = request.body.asJson.get("priceGross").as[Double]
+    val taxAmountVat = request.body.asJson.get("taxAmountVat").as[Int]
+    val desc = request.body.asJson.get("description").as[String]
+    val category = request.body.asJson.get("categoryID").as[Int]
+    val photo = request.body.asJson.get("photo").as[String]
+
+
+    productsRepo.update(id, name, desc, priceNet, priceGross, taxAmountVat, category, photo).map { product =>
+      Ok(Json.toJson(product))
+    }
+
+  }
+
+  def changeCategory(id: Int) = Action.async { implicit  request =>
+
+    val name = request.body.asJson.get("name").as[String]
+    val description = request.body.asJson.get("description").as[String]
+
+    categoryRepo.update(id, name, description).map { category =>
       Ok(Json.toJson(category))
     }
 

@@ -29,8 +29,10 @@ class Categories extends Component {
                     <div className="col-12">
                         {this.state.catRepo.map(category =>
                             <Category
+                                categoryID={category.categoryID}
                                 name={category.categoryName}
                                 description={category.categoryDescription}
+                                isAdmin={this.props.match.params.isAdmin + ""}
                             />
                         )}
                     </div>

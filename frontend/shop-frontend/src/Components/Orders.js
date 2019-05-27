@@ -24,7 +24,7 @@ class Orders extends Component {
     render(){
         return (
             <div className="container">
-                <h1>Users list:</h1>
+                <h1>Orders list:</h1>
                 <div className="row">
                     <div className="col-12">
                         {this.state.orderDetail.map(order =>
@@ -34,6 +34,7 @@ class Orders extends Component {
                                 orderAddress={order.orderAddress}
                                 orderCity={order.orderCity}
                                 orderCountry={order.orderCountry}
+                                isAdmin={this.props.match.params.isAdmin + ""}
                             />
                         )}
                     </div>

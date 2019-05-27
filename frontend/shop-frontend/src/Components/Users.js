@@ -34,6 +34,7 @@ class Users extends Component {
                                 email={user.email}
                                 firstName={user.firstName}
                                 surname={user.surname}
+                                isAdmin={this.props.match.params.isAdmin + ""}
                             />
                         )}
                     </div>

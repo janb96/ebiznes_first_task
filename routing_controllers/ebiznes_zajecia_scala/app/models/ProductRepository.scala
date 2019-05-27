@@ -75,6 +75,17 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     product.filter(_.priceGross >= price).result
   }
 
+  def update(id: Int, name: String, description: String, priceNet: Double,
+             priceGross: Double, taxAmountVat: Int, categoryID: Int, photo: String): Future[Int] = {
+
+    val q = product.filter(_.productID === id)
+      .map(x => (x.name, x.description, x.priceNet, x.priceGross, x.taxAmountVat, x.categories, x.photo))
+      .update((name, description, priceNet, priceGross, taxAmountVat, categoryID, photo))
+
+    db.run(q)
+
+  }
+
   def delete(id: Int): Future[Int] = {
     val q = product.filter(_.productID === id).delete
     db.run(q)

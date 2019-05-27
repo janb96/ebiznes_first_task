@@ -100,7 +100,7 @@ class AddProduct extends Component {
         return (
 
             <div className="container">
-                <center><h1>Add category: </h1></center>
+                <center><h1>Add product: </h1></center>
 
                 <label htmlFor="categoryName">Product name:</label>
                 <input type="text" className="form-control" id="categoryName" value={this.state.name}
@@ -137,7 +137,7 @@ class AddProduct extends Component {
 
                 <br/>
 
-                <button className='btn btn-success btn-block' onClick={this.handleClick}>Make order</button>
+                <button className='btn btn-success btn-block' onClick={this.handleClick}>Add product</button>
             </div>
         );
     }

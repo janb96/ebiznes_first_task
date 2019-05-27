@@ -125,10 +125,7 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
     }
   }
 
-  def deleteOrder = Action.async { implicit  request =>
-
-    val id = request.body.asJson.get("orderID").as[Int]
-
+  def deleteOrder(id: Int) = Action.async { implicit  request =>
     orderRepo.delete(id).map {
       order =>
       orderDetailRepo.delete(id).map {
