@@ -4,6 +4,22 @@ import React, {
     Component,
 } from 'react';
 
+function Status(props){
+    if(props.loginResponse != ""){
+        return(
+            <div className="alert alert-success alert-dismissible">
+                <button type="button" className="close" data-dismiss="alert">&times;</button>
+                <strong>Success!</strong> Product created!.
+            </div>
+        );
+    } else {
+        return(
+          <div></div>
+        );
+    }
+
+}
+
 class AddProduct extends Component {
 
     constructor () {
@@ -15,9 +31,10 @@ class AddProduct extends Component {
             priceGross: 0,
             taxAmountVat: 23,
             description: '',
-            categoryID: '',
+            categoryID: 0,
             photo: '',
-            catRepo: []
+            catRepo: [],
+            loginResponse: ''
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -60,6 +77,7 @@ class AddProduct extends Component {
 
     handleChangeCategoryID(event) {
         let categoryID = parseInt(event.target.value, 10);
+        console.log(categoryID);
         this.setState({categoryID: categoryID});
     }
 
@@ -70,7 +88,11 @@ class AddProduct extends Component {
     async componentDidMount() {
         const promise = await axios.get('http://localhost:9000/categories');
         const response = promise.data;
-        this.setState({ catRepo: response });
+        this.setState({
+            catRepo: response,
+            categoryID: response[0].categoryID
+        });
+        console.log(this.state.categoryID);
     }
 
     handleClick () {
@@ -88,7 +110,7 @@ class AddProduct extends Component {
                 photo: this.state.photo
             }).then((response) => {
                 console.log(response.data);
-                // this.setState({loginResponse: response.data})
+                this.setState({loginResponse: response.data})
             })
                 .catch((error)=>{
                     console.log(error);
@@ -134,9 +156,8 @@ class AddProduct extends Component {
                         </option>
                     )}
                 </select>
-
                 <br/>
-
+                <Status loginResponse={this.state.loginResponse}/>
                 <button className='btn btn-success btn-block' onClick={this.handleClick}>Add product</button>
             </div>
         );

@@ -4,6 +4,22 @@ import React, {
     Component,
 } from 'react';
 
+function Status(props){
+    if(props.loginResponse != ""){
+        return(
+            <div className="alert alert-success alert-dismissible">
+                <button type="button" className="close" data-dismiss="alert">&times;</button>
+                <strong>Success!</strong> Category created!.
+            </div>
+        );
+    } else {
+        return(
+            <div></div>
+        );
+    }
+
+}
+
 class AddCategory extends Component {
 
     constructor () {
@@ -12,6 +28,7 @@ class AddCategory extends Component {
         this.state = {
             name: '',
             description: '',
+            loginResponse: ''
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -38,7 +55,7 @@ class AddCategory extends Component {
                 description: this.state.description,
             }).then((response) => {
                     console.log(response.data);
-                    // this.setState({loginResponse: response.data})
+                    this.setState({loginResponse: response.data})
                 })
                 .catch((error)=>{
                     console.log(error);
@@ -63,6 +80,7 @@ class AddCategory extends Component {
                 <br/>
 
                 <button className='btn btn-success btn-block' onClick={this.handleClick}>Add category</button>
+                <Status loginResponse={this.state.loginResponse}/>
             </div>
         );
     }
