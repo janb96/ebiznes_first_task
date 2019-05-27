@@ -68,6 +68,16 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
     }
   }
 
+  def deleteUser = Action.async { implicit  request =>
+
+    val id = request.body.asJson.get("userID").as[Int]
+
+    userRepo.delete(id).map { users =>
+      Ok(Json.toJson(users))
+    }
+
+  }
+
   def handlePost = Action.async { implicit request =>
     val email = request.body.asJson.get("email").as[String]
     val firstName = request.body.asJson.get("firstName").as[String]

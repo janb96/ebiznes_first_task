@@ -125,6 +125,25 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
     }
   }
 
+  def deleteOrder = Action.async { implicit  request =>
+
+    val id = request.body.asJson.get("orderID").as[Int]
+
+    orderRepo.delete(id).map {
+      order =>
+      orderDetailRepo.delete(id).map {
+        order2 =>
+        orderStatusRepo.delete(id).map {
+          order3 =>
+          println(order + order2 + order3)
+        }
+      }
+    }.map {
+      _ => Ok(Json.toJson(1))
+    }
+
+  }
+
   def handlePost = Action.async { implicit request =>
     val userID = request.body.asJson.get("userID").as[Int]
     val orderAddress = request.body.asJson.get("orderAddress").as[String]
@@ -144,7 +163,7 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
       }
     }
     }.map {
-      _ => Ok("order.created")
+      _ => Ok(Json.toJson(1))
     }
 
 

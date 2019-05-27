@@ -3,6 +3,8 @@ package models
 import javax.inject.{ Inject, Singleton }
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
+import scala.concurrent._
+import scala.concurrent.duration._
 
 import scala.concurrent.{ Future, ExecutionContext }
 
@@ -52,4 +54,10 @@ class UserRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
   def list(): Future[Seq[Users]] = db.run {
     users.result
   }
+
+  def delete(id: Int): Future[Int] = {
+    val q = users.filter(_.userID === id).delete
+    db.run(q)
+  }
+
 }

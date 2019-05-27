@@ -50,4 +50,9 @@ class OrderStatusRepository @Inject() (dbConfigProvider: DatabaseConfigProvider,
     orderStatus.filter(_.orderID === orderID).result
   }
 
+  def delete(id: Int): Future[Int] = {
+    val q = orderStatus.filter(_.orderID === id).delete
+    db.run(q)
+  }
+
 }

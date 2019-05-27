@@ -45,4 +45,9 @@ class CategoryRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(im
     category.filter(_.categoryName === name).result
   }
 
+  def delete(id: Int): Future[Int] = {
+    val q = category.filter(_.categoryID === id).delete
+    db.run(q)
+  }
+
 }

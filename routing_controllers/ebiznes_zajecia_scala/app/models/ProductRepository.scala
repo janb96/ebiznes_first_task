@@ -75,6 +75,11 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     product.filter(_.priceGross >= price).result
   }
 
+  def delete(id: Int): Future[Int] = {
+    val q = product.filter(_.productID === id).delete
+    db.run(q)
+  }
+
 //  def getByCategories(category_ids: List[Int]): Future[Seq[Product]] = db.run {
 //    product.filter(_.categories inSet category_ids).result
 //  }

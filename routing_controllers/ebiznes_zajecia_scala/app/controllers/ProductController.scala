@@ -151,6 +151,26 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     }
   }
 
+  def deleteProduct = Action.async { implicit  request =>
+
+    val id = request.body.asJson.get("productID").as[Int]
+
+    productsRepo.delete(id).map { product =>
+      Ok(Json.toJson(product))
+    }
+
+  }
+
+  def deleteCategory = Action.async { implicit  request =>
+
+    val id = request.body.asJson.get("categoryID").as[Int]
+
+    categoryRepo.delete(id).map { category =>
+      Ok(Json.toJson(category))
+    }
+
+  }
+
   def handlePost = Action.async { implicit request =>
     val name = request.body.asJson.get("name").as[String]
     val priceNet = request.body.asJson.get("priceNet").as[Double]
