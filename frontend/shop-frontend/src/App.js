@@ -13,7 +13,8 @@ import MakeOrder from './Components/MakeOrder';
 import AddCategory from "./Components/AddCategory";
 import AddProduct from "./Components/AddProduct";
 import Home from "./Components/Home";
-import AdminPanel from "./Components/AdminPanel"
+import AdminPanel from "./Components/AdminPanel";
+import AddUser from "./Components/AddUser";
 
 class App extends Component {
   render() {
@@ -30,6 +31,7 @@ class App extends Component {
             <Route path="/categories/:isAdmin?" component={Categories} />
             <Route path="/users/:isAdmin?" component={Users} />
             <Route path="/orders/:isAdmin?" component={Orders} />
+            <Route path="/adduser" component={AddUser} />
             <Route path="/addcategory" component={AddCategory} />
             <Route path="/addproduct" component={AddProduct} />
             <Route path="/addorder/:id/:productQuantity/:orderDetailTotalNetPrice/:orderDetailTotalGrossPrice" component={MakeOrder} />
