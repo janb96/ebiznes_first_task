@@ -44,6 +44,12 @@ class AdminPanel extends Component {
                                 <div className="card-body">Add category</div>
                             </div>
                         </Link>
+                        <br/>
+                        <Link to="/adduser">
+                            <div className="card bg-success text-white">
+                                <div className="card-body">Add user</div>
+                            </div>
+                        </Link>
                     </div>
                 </div>
                 <br/>

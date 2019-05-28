@@ -55,4 +55,14 @@ class OrderStatusRepository @Inject() (dbConfigProvider: DatabaseConfigProvider,
     db.run(q)
   }
 
+  def update(id: Int, deliveryDate: String, delivered: Int): Future[Int] = {
+
+    val q = orderStatus.filter(_.orderID === id)
+      .map(x => (x.deliveryDate, x.delivered))
+      .update((deliveryDate, delivered))
+
+    db.run(q)
+
+  }
+
 }

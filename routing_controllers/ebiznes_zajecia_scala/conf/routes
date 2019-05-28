@@ -50,6 +50,7 @@ GET   /orderDetail/byOrderID/:orderID                controllers.OrderController
 GET   /orderStatus/byOrderID/:orderID                controllers.OrderController.getOrderStatusByOrderID(orderID: Integer)
 
 DELETE    /orders/delete/:id    controllers.OrderController.deleteOrder(id: Integer)
+PUT    /orders/:id    controllers.OrderController.changeOrder(id: Integer)
 
 #GET   /orders/byAddress/:address                controllers.OrderController.getByAddress(address: String)
 

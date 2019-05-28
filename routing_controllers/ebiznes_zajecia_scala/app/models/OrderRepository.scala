@@ -66,4 +66,14 @@ class OrderRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
     db.run(q)
   }
 
+  def update(id: Int, orderAddress: String, orderCity: String, orderCountry: String): Future[Int] = {
+
+    val q = orders.filter(_.orderID === id)
+      .map(x => (x.orderAddress, x.orderCity, x.orderCountry))
+      .update((orderAddress, orderCity, orderCountry))
+
+    db.run(q)
+
+  }
+
 }

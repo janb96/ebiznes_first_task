@@ -141,6 +141,25 @@ class OrderController @Inject()(userRepo: UserRepository, orderRepo: OrderReposi
 
   }
 
+  def changeOrder(id: Int) = Action.async { implicit  request =>
+
+    //orders
+    val orderAddress = request.body.asJson.get("orderAddress").as[String]
+    val orderCity = request.body.asJson.get("orderCity").as[String]
+    val orderCountry = request.body.asJson.get("orderCountry").as[String]
+
+    //orderStatus
+    val deliveryDate = request.body.asJson.get("deliveryDate").as[String]
+    val delivered = request.body.asJson.get("delivered").as[Int]
+
+    orderRepo.update(id, orderAddress, orderCity, orderCountry).map { order =>
+      orderStatusRepo.update(id, deliveryDate, delivered)
+    }.map {
+      _ => Ok("order.changed")
+    }
+
+  }
+
   def handlePost = Action.async { implicit request =>
     val userID = request.body.asJson.get("userID").as[Int]
     val orderAddress = request.body.asJson.get("orderAddress").as[String]
