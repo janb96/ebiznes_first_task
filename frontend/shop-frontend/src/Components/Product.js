@@ -22,7 +22,7 @@ class Product extends Component {
             description: '',
             categoryID: 0,
             photo: '',
-            edit: 'False'
+            edit: 'False',
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -226,9 +226,8 @@ class Product extends Component {
                     </div>
                     <Link to={"/addorder/"
                     + this.props.productID
-                    + "/" + this.state.productQuantity
-                    + "/" + this.props.priceNet*this.state.productQuantity
-                    + "/" + this.props.priceGross*this.state.productQuantity
+                    + "/" + this.props.priceNet
+                    + "/" + this.props.priceGross
                     }>
                         <h2 class="btn btn-warning btn-block">Buy it!</h2>
                     </Link>

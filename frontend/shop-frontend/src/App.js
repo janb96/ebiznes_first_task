@@ -34,7 +34,7 @@ class App extends Component {
             <Route path="/adduser" component={AddUser} />
             <Route path="/addcategory" component={AddCategory} />
             <Route path="/addproduct" component={AddProduct} />
-            <Route path="/addorder/:id/:productQuantity/:orderDetailTotalNetPrice/:orderDetailTotalGrossPrice" component={MakeOrder} />
+            <Route path="/addorder/:id/:orderDetailTotalNetPrice/:orderDetailTotalGrossPrice" component={MakeOrder} />
           </div>
         </Router>
     );
