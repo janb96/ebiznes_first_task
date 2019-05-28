@@ -75,6 +75,21 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
 
   }
 
+  def changeUser(id: Int) = Action.async { implicit  request =>
+
+    val email = request.body.asJson.get("email").as[String]
+    val firstName = request.body.asJson.get("firstName").as[String]
+    val surname = request.body.asJson.get("surname").as[String]
+    val password = request.body.asJson.get("password").as[String]
+//    val emailMarketing = request.body.asJson.get("emailMarketing").as[Int]
+//    val phoneMarketing = request.body.asJson.get("phoneMarketing").as[Int]
+
+    userRepo.update(id, email, firstName, surname, password).map { user =>
+      Ok(Json.toJson(user))
+    }
+
+  }
+
   def handlePost = Action.async { implicit request =>
     val email = request.body.asJson.get("email").as[String]
     val firstName = request.body.asJson.get("firstName").as[String]
@@ -82,7 +97,7 @@ class UserController @Inject()(userRepo: UserRepository, marketingRepo: Marketin
     val password = request.body.asJson.get("password").as[String]
     val emailMarketing = request.body.asJson.get("emailMarketing").as[Int]
     val phoneMarketing = request.body.asJson.get("phoneMarketing").as[Int]
-    
+
     userRepo.create(email, firstName, surname, password).map { user =>
       marketingRepo.create(user.userID, emailMarketing, phoneMarketing)
     }.map {

@@ -60,4 +60,14 @@ class UserRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
     db.run(q)
   }
 
+  def update(id: Int, email: String, firstName: String, surname: String, password: String): Future[Int] = {
+
+    val q = users.filter(_.userID === id)
+      .map(x => (x.email, x.firstName, x.surname, x.password))
+      .update((email, firstName, surname, password))
+
+    db.run(q)
+
+  }
+
 }

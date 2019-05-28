@@ -36,6 +36,7 @@ GET    /users/byID/:id              controllers.UserController.getByID(id: Integ
 GET    /users/bySurname/:surname    controllers.UserController.getBySurname(surname: String)
 
 DELETE    /users/delete/:id    controllers.UserController.deleteUser(id: Integer)
+PUT    /users/:id    controllers.UserController.changeUser(id: Integer)
 
 #ORDERS
 POST   /addorder                     controllers.OrderController.handlePost

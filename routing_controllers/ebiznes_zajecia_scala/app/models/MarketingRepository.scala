@@ -43,4 +43,15 @@ class MarketingRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, u
   def list(): Future[Seq[MarketingConsensts]] = db.run {
     marketingConsent.result
   }
+
+  def update(id: Int, emailMarketing: Int, phoneMarketing: Int): Future[Int] = {
+
+    val q = marketingConsent.filter(_.userID === id)
+      .map(x => (x.emailMarketing, x.phoneMarketing))
+      .update((emailMarketing, phoneMarketing))
+
+    db.run(q)
+
+  }
+
 }
