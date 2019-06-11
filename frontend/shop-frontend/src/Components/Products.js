@@ -13,17 +13,55 @@ class Products extends Component {
         super();
         this.state = {
             products: [],
+            userData: null
         };
     }
 
     async componentDidMount() {
-        const promise = await axios.get('http://localhost:9000/products');
-        const response = promise.data;
-        if(response != "Unauthorized"){
-            this.setState({
-                products: response
-            });
+
+        let isAdmin = this.props.match.params.isAdmin;
+        console.log(isAdmin);
+        if(isAdmin == "True"){
+            const promise = await axios.get('http://localhost:9000/products');
+            const response = promise.data;
+            if(response != "Unauthorized"){
+                this.setState({
+                    products: response
+                });
+            }
+        } else {
+            console.log(isAdmin);
+            if(isAdmin == undefined){
+                const promise = await axios.get('http://localhost:9000');
+                const response = promise.data;
+                if(response != "Unauthorized"){
+                    this.setState({
+                        userData: response,
+                    });
+                    const promise2 = await axios.get('http://localhost:9000/products');
+                    const response2 = promise2.data;
+                    if(response2 != "Unauthorized"){
+                        this.setState({ products: response2 });
+                    }
+                }
+            } else {
+                console.log(isAdmin);
+                const promise = await axios.get('http://localhost:9000');
+                const response = promise.data;
+                if(response != "Unauthorized"){
+                    this.setState({
+                        userData: response,
+                    });
+                    const promise2 = await axios.get('http://localhost:9000/products/byCategory/' + isAdmin);
+                    const response2 = promise2.data;
+                    if(response2 != "Unauthorized"){
+                        this.setState({ products: response2 });
+                    }
+                }
+            }
+
         }
+
     }
 
     render(){

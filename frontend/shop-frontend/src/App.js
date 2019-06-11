@@ -30,6 +30,7 @@ class App extends Component {
             <br/>
             <Route exact path="/" component={Home} />
             <Route exact path="/products/:isAdmin?" component={Products} />
+            <Route exact path="/products/byCategory/:isAdmin?" component={Products} />
             <Route exact path="/admin-panel" component={AdminPanel} />
             <Route path="/categories/:isAdmin?" component={Categories} />
             <Route path="/users/:isAdmin?" component={Users} />

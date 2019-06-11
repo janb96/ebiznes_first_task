@@ -2,6 +2,7 @@ import React, {
     Component
 } from 'react';
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 class Category extends Component {
 
@@ -119,6 +120,7 @@ class Category extends Component {
                             <button className='btn btn-warning' onClick={this.handleEditButton}>Start edition</button>
                             <h2><strong>Category name</strong>: {this.props.name}</h2>
                             <p><strong>Description</strong>: {this.props.description}</p>
+                            <Link to={"/products/byCategory/" + this.props.categoryID}>Show products in this category</Link>
                             <br/>
                             <button className='btn btn-danger btn-block'
                                     onClick={this.handleClick}>Delete this category</button>
@@ -133,6 +135,7 @@ class Category extends Component {
                     <div className="alert alert-info">
                         <h2><strong>Category name</strong>: {this.props.name}</h2>
                         <p><strong>Description</strong>: {this.props.description}</p>
+                        <Link to={"/products/byCategory/" + this.props.categoryID}>Show products in this category</Link>
                     </div>
                     <br/>
                 </div>

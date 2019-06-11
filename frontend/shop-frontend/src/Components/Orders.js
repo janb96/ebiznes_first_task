@@ -12,16 +12,34 @@ class Orders extends Component {
     constructor () {
         super();
         this.state = {
-            orderDetail: []
+            orderDetail: [],
+            userData: null
         };
     }
 
     async componentDidMount() {
-        const promise = await axios.get('http://localhost:9000/orders');
-        const response = promise.data;
-        if(response != "Unauthorized"){
-            this.setState({ orderDetail: response });
+        let isAdmin = this.props.match.params.isAdmin;
+        if(isAdmin == "True"){
+            const promise = await axios.get('http://localhost:9000/orders');
+            const response = promise.data;
+            if(response != "Unauthorized"){
+                this.setState({ orderDetail: response });
+            }
+        } else {
+            const promise = await axios.get('http://localhost:9000');
+            const response = promise.data;
+            if(response != "Unauthorized"){
+                this.setState({
+                    userData: response,
+                });
+                const promise2 = await axios.get('http://localhost:9000/orders/byUserID/'+ this.state.userData[0].userID);
+                const response2 = promise2.data;
+                if(response2 != "Unauthorized"){
+                    this.setState({ orderDetail: response2 });
+                }
+            }
         }
+
     }
 
     render(){
