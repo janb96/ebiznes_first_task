@@ -26,8 +26,9 @@ class MakeOrder extends Component {
         super();
 
         this.state = {
+            userData: null,
             productID: -1,
-            userID: 1,
+            userID: -1,
             orderAddress: '',
             orderCity: '',
             orderCountry: '',
@@ -47,7 +48,16 @@ class MakeOrder extends Component {
     }
 
     async componentDidMount() {
+        const promise = await axios.get('http://localhost:9000');
+        const response = promise.data;
+        if(response != "Unauthorized"){
+            this.setState({
+                userData: response,
+            });
+            console.log(this.state.userData[0].userID);
+        }
         this.setState({
+            userID: this.state.userData[0].userID,
             productID: parseInt(this.props.match.params.id, 10),
             orderDetailTotalNetPrice: parseInt(this.props.match.params.orderDetailTotalNetPrice, 10),
             orderDetailTotalGrossPrice: parseInt(this.props.match.params.orderDetailTotalGrossPrice, 10)
@@ -89,7 +99,8 @@ class MakeOrder extends Component {
                 productQuantity: this.state.productQuantity,
                 orderDetailTotalNetPrice: this.state.orderDetailTotalNetPrice * this.state.productQuantity,
                 orderDetailTotalGrossPrice: this.state.orderDetailTotalGrossPrice * this.state.productQuantity
-            })
+            }, {withCredentials: true}
+                )
                 .then((response) => {
                     console.log(response.data);
                     this.setState({loginResponse: response.data})

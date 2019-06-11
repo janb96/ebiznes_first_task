@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import Product from './Product';
+import PleaseLogin from './PleaseLogin'
 
 import React, {
     Component,
@@ -18,35 +19,41 @@ class Products extends Component {
     async componentDidMount() {
         const promise = await axios.get('http://localhost:9000/products');
         const response = promise.data;
-        this.setState({
-            products: response
-        });
+        if(response != "Unauthorized"){
+            this.setState({
+                products: response
+            });
+        }
     }
 
     render(){
-
-        return (
-            <div className="container">
-                <h1>Products list:</h1>
-                <div className="row">
-                    <div className="col-12">
-                        {this.state.products.map(product =>
-                            <Product
-                                productID={product.productID}
-                                name={product.name}
-                                description={product.description}
-                                photo={product.photo}
-                                priceNet={product.priceNet}
-                                priceGross={product.priceGross}
-                                taxAmountVat={product.taxAmountVat}
-                                categoryID={product.categoryID}
-                                isAdmin={this.props.match.params.isAdmin + ""}
-                            />
-                        )}
+        if(this.state.products.length > 0){
+            return (
+                <div className="container">
+                    <h1>Products list:</h1>
+                    <div className="row">
+                        <div className="col-12">
+                            {this.state.products != null && this.state.products.map(product =>
+                                <Product
+                                    productID={product.productID}
+                                    name={product.name}
+                                    description={product.description}
+                                    photo={product.photo}
+                                    priceNet={product.priceNet}
+                                    priceGross={product.priceGross}
+                                    taxAmountVat={product.taxAmountVat}
+                                    categoryID={product.categoryID}
+                                    isAdmin={this.props.match.params.isAdmin + ""}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return <PleaseLogin/>;
+        }
+
     }
 
 }

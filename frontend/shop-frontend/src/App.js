@@ -15,6 +15,9 @@ import AddProduct from "./Components/AddProduct";
 import Home from "./Components/Home";
 import AdminPanel from "./Components/AdminPanel";
 import AddUser from "./Components/AddUser";
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
 
 class App extends Component {
   render() {
