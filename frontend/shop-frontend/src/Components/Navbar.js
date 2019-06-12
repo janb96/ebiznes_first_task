@@ -13,19 +13,6 @@ class Navbar extends Component {
             userData: null,
             date: new Date()
         };
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    async handleClick () {
-
-
-        const response = await axios({
-            url: 'http://localhost:9000/products',
-            method: 'get'
-        });
-
-        console.log(response)
-
     }
 
     async componentDidMount() {
@@ -39,7 +26,6 @@ class Navbar extends Component {
             this.setState({
                 userData: response,
             });
-            console.log(this.state.userData[0].userID);
         }
     }
 

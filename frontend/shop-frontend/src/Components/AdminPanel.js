@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {
     Link
 } from 'react-router-dom';
@@ -13,15 +11,8 @@ class AdminPanel extends Component {
     constructor () {
         super();
         this.state = {
-            // users: []
         };
     }
-
-    // async componentDidMount() {
-    //     const promise = await axios.get('http://localhost:9000/users');
-    //     const response = promise.data;
-    //     this.setState({ users: response });
-    // }
 
     render(){
 
@@ -45,11 +36,11 @@ class AdminPanel extends Component {
                             </div>
                         </Link>
                         <br/>
-                        <Link to="/adduser">
-                            <div className="card bg-success text-white">
-                                <div className="card-body">Add user</div>
-                            </div>
-                        </Link>
+                        {/*<Link to="/adduser">*/}
+                        {/*    <div className="card bg-success text-white">*/}
+                        {/*        <div className="card-body">Add user</div>*/}
+                        {/*    </div>*/}
+                        {/*</Link>*/}
                     </div>
                 </div>
                 <br/>

@@ -54,7 +54,6 @@ class MakeOrder extends Component {
             this.setState({
                 userData: response,
             });
-            console.log(this.state.userData[0].userID);
         }
         this.setState({
             userID: this.state.userData[0].userID,
@@ -62,7 +61,6 @@ class MakeOrder extends Component {
             orderDetailTotalNetPrice: parseInt(this.props.match.params.orderDetailTotalNetPrice, 10),
             orderDetailTotalGrossPrice: parseInt(this.props.match.params.orderDetailTotalGrossPrice, 10)
         });
-        console.log(this.state.productID + " " + this.state.orderDetailTotalNetPrice + " " + this.state.orderDetailTotalGrossPrice);
     }
 
     handleChangeOrderAddress(event) {
@@ -102,7 +100,6 @@ class MakeOrder extends Component {
             }, {withCredentials: true}
                 )
                 .then((response) => {
-                    console.log(response.data);
                     this.setState({loginResponse: response.data})
                 })
                 .catch((error)=>{

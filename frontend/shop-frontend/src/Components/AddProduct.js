@@ -1,4 +1,5 @@
 import axios from 'axios';
+import PleaseLogin from './PleaseLogin';
 
 import React, {
     Component,
@@ -34,7 +35,8 @@ class AddProduct extends Component {
             categoryID: 0,
             photo: '',
             catRepo: [],
-            loginResponse: ''
+            loginResponse: '',
+            isLogin: false
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -92,7 +94,15 @@ class AddProduct extends Component {
             catRepo: response,
             categoryID: response[0].categoryID
         });
-        console.log(this.state.categoryID);
+
+        const promise2 = await axios.get('http://localhost:9000/');
+        const response2 = promise2.data;
+        if(response2 !== "Unauthorized"){
+            this.setState({
+                isLogin: true
+            });
+        }
+
     }
 
     handleClick () {
@@ -119,48 +129,54 @@ class AddProduct extends Component {
     }
 
     render(){
-        return (
+        if(this.state.isLogin === true){
+            return (
+                <div className="container">
+                    <center><h1>Add product: </h1></center>
 
-            <div className="container">
-                <center><h1>Add product: </h1></center>
+                    <label htmlFor="categoryName">Product name:</label>
+                    <input type="text" className="form-control" id="categoryName" value={this.state.name}
+                           onChange={this.handleChangeProductName} />
 
-                <label htmlFor="categoryName">Product name:</label>
-                <input type="text" className="form-control" id="categoryName" value={this.state.name}
-                       onChange={this.handleChangeProductName} />
+                    <label htmlFor="categoryDescription">Product description:</label>
+                    <input type="text" className="form-control" id="categoryDescription" value={this.state.description}
+                           onChange={this.handleChangeProductDescription} />
 
-                <label htmlFor="categoryDescription">Product description:</label>
-                <input type="text" className="form-control" id="categoryDescription" value={this.state.description}
-                       onChange={this.handleChangeProductDescription} />
+                    <label htmlFor="photo">Photo src:</label>
+                    <input type="text" className="form-control" id="photo" value={this.state.photo}
+                           onChange={this.handleChangePhoto} />
 
-                <label htmlFor="photo">Photo src:</label>
-                <input type="text" className="form-control" id="photo" value={this.state.photo}
-                       onChange={this.handleChangePhoto} />
+                    <label htmlFor="priceNet">Price net:</label>
+                    <input type="number" className="form-control" id="priceNet" value={this.state.priceNet}
+                           onChange={this.handleChangePriceNet} />
 
-                <label htmlFor="priceNet">Price net:</label>
-                <input type="number" className="form-control" id="priceNet" value={this.state.priceNet}
-                       onChange={this.handleChangePriceNet} />
+                    <br/>
+                    <p>Gross price: {this.state.priceGross}</p>
+                    <br/>
 
-                <br/>
-                <p>Gross price: {this.state.priceGross}</p>
-                <br/>
+                    <label htmlFor="taxAmountVat">Tax amount value (%):</label>
+                    <input type="number" className="form-control" id="taxAmountVat" value={this.state.taxAmountVat}
+                           onChange={this.handleChangeTaxAmountVat} />
 
-                <label htmlFor="taxAmountVat">Tax amount value (%):</label>
-                <input type="number" className="form-control" id="taxAmountVat" value={this.state.taxAmountVat}
-                       onChange={this.handleChangeTaxAmountVat} />
+                    <label htmlFor="categoryID">Category:</label>
+                    <select className="form-control" id="categoryID" onChange={this.handleChangeCategoryID}>
+                        {this.state.catRepo.map(category =>
+                            <option value={category.categoryID}>
+                                {category.categoryName}
+                            </option>
+                        )}
+                    </select>
+                    <br/>
+                    <Status loginResponse={this.state.loginResponse}/>
+                    <button className='btn btn-success btn-block' onClick={this.handleClick}>Add product</button>
+                </div>
+            );
+        } else {
+            return(
+                <PleaseLogin />
+            );
+        }
 
-                <label htmlFor="categoryID">Category:</label>
-                <select className="form-control" id="categoryID" onChange={this.handleChangeCategoryID}>
-                    {this.state.catRepo.map(category =>
-                        <option value={category.categoryID}>
-                            {category.categoryName}
-                        </option>
-                    )}
-                </select>
-                <br/>
-                <Status loginResponse={this.state.loginResponse}/>
-                <button className='btn btn-success btn-block' onClick={this.handleClick}>Add product</button>
-            </div>
-        );
     }
 
 }

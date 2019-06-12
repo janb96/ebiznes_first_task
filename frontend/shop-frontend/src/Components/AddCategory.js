@@ -1,4 +1,5 @@
 import axios from 'axios';
+import PleaseLogin from './PleaseLogin';
 
 import React, {
     Component,
@@ -28,7 +29,8 @@ class AddCategory extends Component {
         this.state = {
             name: '',
             description: '',
-            loginResponse: ''
+            loginResponse: '',
+            isLogin: false
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -43,6 +45,17 @@ class AddCategory extends Component {
 
     handleChangeCategoryDescription(event) {
         this.setState({description: event.target.value});
+    }
+
+    async componentDidMount() {
+        const promise2 = await axios.get('http://localhost:9000/');
+        const response2 = promise2.data;
+        if(response2 !== "Unauthorized"){
+            this.setState({
+                isLogin: true
+            });
+        }
+
     }
 
     handleClick () {
@@ -64,25 +77,29 @@ class AddCategory extends Component {
     }
 
     render(){
-        return (
+        if(this.state.isLogin === true){
+            return (
 
-            <div className="container">
-                <center><h1>Add category: </h1></center>
+                <div className="container">
+                    <center><h1>Add category: </h1></center>
 
-                <label htmlFor="categoryName">Category name:</label>
-                <input type="text" className="form-control" id="categoryName" value={this.state.name}
-                       onChange={this.handleChangeCategoryName} />
+                    <label htmlFor="categoryName">Category name:</label>
+                    <input type="text" className="form-control" id="categoryName" value={this.state.name}
+                           onChange={this.handleChangeCategoryName} />
 
-                <label htmlFor="categoryDescription">Category description:</label>
-                <input type="text" className="form-control" id="categoryDescription" value={this.state.description}
-                       onChange={this.handleChangeCategoryDescription} />
+                    <label htmlFor="categoryDescription">Category description:</label>
+                    <input type="text" className="form-control" id="categoryDescription" value={this.state.description}
+                           onChange={this.handleChangeCategoryDescription} />
 
-                <br/>
+                    <br/>
 
-                <button className='btn btn-success btn-block' onClick={this.handleClick}>Add category</button>
-                <Status loginResponse={this.state.loginResponse}/>
-            </div>
-        );
+                    <button className='btn btn-success btn-block' onClick={this.handleClick}>Add category</button>
+                    <Status loginResponse={this.state.loginResponse}/>
+                </div>
+            );
+        } else {
+            return <PleaseLogin/>;
+        }
     }
 
 }

@@ -41,10 +41,8 @@ class Product extends Component {
         if(this.state.name !== ''
             && this.state.description !== ''){
 
-            axios.delete('http://localhost:9000/products/delete/' + this.props.productID).then((response) => {
-                console.log(response.data);
+            axios.delete('http://localhost:9000/products/delete/' + this.props.productID).then(() => {
                 window.location.reload();
-                // this.setState({loginResponse: response.data})
             })
                 .catch((error)=>{
                     console.log(error);
@@ -82,10 +80,8 @@ class Product extends Component {
                 taxAmountVat: this.state.taxAmountVat,
                 categoryID: this.state.categoryID,
                 photo: this.state.photo
-            }).then((response) => {
-                console.log(response.data);
+            }).then(() => {
                 window.location.reload();
-                // this.setState({loginResponse: response.data})
             }).catch((error)=>{
                     console.log(error);
                 });

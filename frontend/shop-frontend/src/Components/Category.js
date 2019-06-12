@@ -37,7 +37,6 @@ class Category extends Component {
             axios.delete('http://localhost:9000/categories/delete/' + this.props.categoryID).then((response) => {
                 console.log(response.data);
                 window.location.reload();
-                // this.setState({loginResponse: response.data})
             })
                 .catch((error)=>{
                     console.log(error);
@@ -70,10 +69,8 @@ class Category extends Component {
             axios.put(url , {
                 name: this.state.name,
                 description: this.state.description,
-            }).then((response) => {
-                console.log(response.data);
+            }).then(() => {
                 window.location.reload();
-                // this.setState({loginResponse: response.data})
             }).catch((error)=>{
                 console.log(error);
             });
