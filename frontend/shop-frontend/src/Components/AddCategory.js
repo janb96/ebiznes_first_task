@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 
 function Status(props){
-    if(props.loginResponse != ""){
+    if(props.loginResponse !== ""){
         return(
             <div className="alert alert-success alert-dismissible">
                 <button type="button" className="close" data-dismiss="alert">&times;</button>

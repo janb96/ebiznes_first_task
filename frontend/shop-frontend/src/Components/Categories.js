@@ -19,7 +19,7 @@ class Categories extends Component {
     async componentDidMount() {
         const promise = await axios.get('http://localhost:9000/categories');
         const response = promise.data;
-        if(response != "Unauthorized"){
+        if(response !== "Unauthorized"){
             this.setState({ catRepo: response });
         }
     }

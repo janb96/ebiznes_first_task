@@ -49,7 +49,7 @@ class Category extends Component {
 
         console.log(this.state.edit + " Zmiana ");
 
-        if(this.state.edit == "True"){
+        if(this.state.edit === "True"){
             this.setState({
                 edit: "False"
             });
@@ -90,8 +90,8 @@ class Category extends Component {
     }
 
     render(){
-        if(this.props.isAdmin == "True"){
-            if(this.state.edit == "True"){
+        if(this.props.isAdmin === "True"){
+            if(this.state.edit === "True"){
                 return (
 
                     <div className="category">

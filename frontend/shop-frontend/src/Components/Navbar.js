@@ -35,7 +35,7 @@ class Navbar extends Component {
         );
         const promise = await axios.get('http://localhost:9000');
         const response = promise.data;
-        if(response != "Unauthorized"){
+        if(response !== "Unauthorized"){
             this.setState({
                 userData: response,
             });

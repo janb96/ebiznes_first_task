@@ -45,11 +45,6 @@ class Order extends Component {
             deliveryDate: responseOrderStatus[0].deliveryDate,
             delivered: responseOrderStatus[0].delivered
         });
-
-        // this.state.orderStatus.map( order => {ć
-        //         this.setState
-        //     }
-        // );
     }
 
     handleChangeOrderAddress(event) {
@@ -85,10 +80,8 @@ class Order extends Component {
                 orderCountry: this.state.orderCountry,
                 deliveryDate: this.state.deliveryDate,
                 delivered: this.state.delivered
-            }).then((response) => {
-                console.log(response.data);
+            }).then(() => {
                 window.location.reload();
-                // this.setState({loginResponse: response.data})
             }).catch((error)=>{
                 console.log(error);
             });
@@ -97,9 +90,7 @@ class Order extends Component {
 
     handleEditButton () {
 
-        console.log(this.state.edit + " Zmiana ");
-
-        if(this.state.edit == "True"){
+        if(this.state.edit === "True"){
             this.setState({
                 edit: "False"
             });
@@ -116,9 +107,7 @@ class Order extends Component {
             && this.state.description !== ''){
 
             axios.delete('http://localhost:9000/orders/delete/' + this.props.orderID).then((response) => {
-                console.log(response.data);
                 window.location.reload();
-                // this.setState({loginResponse: response.data})
             })
                 .catch((error)=>{
                     console.log(error);
@@ -127,8 +116,8 @@ class Order extends Component {
     }
 
     render(){
-        if(this.props.isAdmin == "True"){
-            if(this.state.edit == "False"){
+        if(this.props.isAdmin === "True"){
+            if(this.state.edit === "False"){
                 return(
                     <div className="user">
                         <div className="alert alert-success">

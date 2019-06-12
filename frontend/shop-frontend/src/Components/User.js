@@ -68,7 +68,7 @@ class User extends Component {
 
         console.log(this.state.edit + " Zmiana ");
 
-        if(this.state.edit == "True"){
+        if(this.state.edit === "True"){
             this.setState({
                 edit: "False"
             });
@@ -107,8 +107,8 @@ class User extends Component {
     }
 
     render() {
-        if(this.props.isAdmin == "True"){
-            if(this.state.edit == "True"){
+        if(this.props.isAdmin === "True"){
+            if(this.state.edit === "True"){
                 return(
                     <div className="container">
                         <center><h1>Edit product: </h1></center>

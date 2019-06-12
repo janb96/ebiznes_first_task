@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {
     Link
 } from 'react-router-dom';
@@ -13,15 +11,8 @@ class Home extends Component {
     constructor () {
         super();
         this.state = {
-            // users: []
         };
     }
-
-    // async componentDidMount() {
-    //     const promise = await axios.get('http://localhost:9000/users');
-    //     const response = promise.data;
-    //     this.setState({ users: response });
-    // }
 
     render(){
 
@@ -51,13 +42,6 @@ class Home extends Component {
                             </div>
                         </Link>
                     </div>
-                    {/*<div className="col-3">*/}
-                    {/*    <Link to="/users">*/}
-                    {/*        <div className="card bg-secondary text-white">*/}
-                    {/*            <div className="card-body">Show all users</div>*/}
-                    {/*        </div>*/}
-                    {/*    </Link>*/}
-                    {/*</div>*/}
                 </div>
             </div>
         );

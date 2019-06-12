@@ -56,7 +56,7 @@ class Product extends Component {
 
         console.log(this.state.edit + " Zmiana ");
 
-        if(this.state.edit == "True"){
+        if(this.state.edit === "True"){
             this.setState({
                 edit: "False"
             });
@@ -138,14 +138,14 @@ class Product extends Component {
     }
 
     render(){
-        let photo = require("../" + "photo/not-found.jpg");
+        let photo = require("../photo/not-found.jpg");
         try{
             photo = require("../" + this.props.photo);
         } catch (e){
             console.log(e);
         }
-        if(this.props.isAdmin == "True"){
-            if(this.state.edit == "True"){
+        if(this.props.isAdmin === "True"){
+            if(this.state.edit === "True"){
                 return(
                     <div className="container">
                         <center><h1>Edit product: </h1></center>

@@ -21,26 +21,26 @@ class Products extends Component {
 
         let isAdmin = this.props.match.params.isAdmin;
         console.log(isAdmin);
-        if(isAdmin == "True"){
+        if(isAdmin === "True"){
             const promise = await axios.get('http://localhost:9000/products');
             const response = promise.data;
-            if(response != "Unauthorized"){
+            if(response !== "Unauthorized"){
                 this.setState({
                     products: response
                 });
             }
         } else {
             console.log(isAdmin);
-            if(isAdmin == undefined){
+            if(isAdmin === undefined){
                 const promise = await axios.get('http://localhost:9000');
                 const response = promise.data;
-                if(response != "Unauthorized"){
+                if(response !== "Unauthorized"){
                     this.setState({
                         userData: response,
                     });
                     const promise2 = await axios.get('http://localhost:9000/products');
                     const response2 = promise2.data;
-                    if(response2 != "Unauthorized"){
+                    if(response2 !== "Unauthorized"){
                         this.setState({ products: response2 });
                     }
                 }
@@ -48,13 +48,13 @@ class Products extends Component {
                 console.log(isAdmin);
                 const promise = await axios.get('http://localhost:9000');
                 const response = promise.data;
-                if(response != "Unauthorized"){
+                if(response !== "Unauthorized"){
                     this.setState({
                         userData: response,
                     });
                     const promise2 = await axios.get('http://localhost:9000/products/byCategory/' + isAdmin);
                     const response2 = promise2.data;
-                    if(response2 != "Unauthorized"){
+                    if(response2 !== "Unauthorized"){
                         this.setState({ products: response2 });
                     }
                 }

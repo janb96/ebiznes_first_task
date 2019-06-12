@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 
 function Status(props){
-    if(props.loginResponse != ""){
+    if(props.loginResponse !== ""){
         return(
             <div className="alert alert-success alert-dismissible">
                 <button type="button" className="close" data-dismiss="alert">&times;</button>
@@ -50,7 +50,7 @@ class MakeOrder extends Component {
     async componentDidMount() {
         const promise = await axios.get('http://localhost:9000');
         const response = promise.data;
-        if(response != "Unauthorized"){
+        if(response !== "Unauthorized"){
             this.setState({
                 userData: response,
             });
